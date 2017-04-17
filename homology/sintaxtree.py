@@ -6,13 +6,13 @@ class CompositeSnippet(Snippet):
     """
     CompositeSnippet compose two snippets with the operand
     """
-    def __init__(self, left, operand, right):
+    def __init__(self, left, operation, right):
         self.left = left
-        self.operand = operand
+        self.operation = operation
         self.right = right
 
     def __repr__(self):
-        return str(self.left) + self.operand + str(self.right)
+        return str(self.left) + self.operation + str(self.right)
 
 
 class SimpleSnippet(Snippet):
