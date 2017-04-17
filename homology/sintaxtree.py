@@ -15,7 +15,7 @@ class CompositeSnippet(Snippet):
         return str(self.left) + self.operand + str(self.right)
 
 
-class BasicSnippet(Snippet):
+class SimpleSnippet(Snippet):
     """
     BasicSnippet can be directly compiled.
     """
