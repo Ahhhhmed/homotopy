@@ -15,9 +15,11 @@ class CompositeSnippet(Snippet):
         return str(self.left) + self.operation + str(self.right)
 
     def __eq__(self, other):
-        return self.left == other.left and \
-               self.operation == other.operation and\
-               self.right == other.right
+        if isinstance(other, self.__class__):
+            return self.left == other.left and \
+                   self.operation == other.operation and\
+                   self.right == other.right
+        return False
 
 
 class SimpleSnippet(Snippet):
@@ -31,4 +33,6 @@ class SimpleSnippet(Snippet):
         return self.value
 
     def __eq__(self, other):
-        return self.value == other.value
+        if isinstance(other, self.__class__):
+            return self.value == other.value
+        return False
