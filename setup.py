@@ -8,5 +8,8 @@ setup(
     license='',
     author='Nenad',
     author_email='ahhhhmed@gmail.com',
-    description='snippet engine'
+    description='snippet engine',
+    install_requires=[
+          'ply',
+    ]
 )
