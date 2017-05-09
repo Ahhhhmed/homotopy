@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import homology.sintaxtree as st
+import homology.syntaxtree as st
 
 class TestBasicSnippet(TestCase):
     def setUp(self):
