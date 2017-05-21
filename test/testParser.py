@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from homology.parser import parser
-from homology.syntaxtree import SimpleSnippet, CompositeSnippet
+from homology.syntax_tree import SimpleSnippet, CompositeSnippet
 
 
 class TestParser(TestCase):
