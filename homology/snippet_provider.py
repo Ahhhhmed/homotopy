@@ -1,4 +1,4 @@
 
 
-class SnippetProvider():
+class SnippetProvider:
     pass

@@ -2,7 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 from homology.syntax_tree import SimpleSnippet, CompositeSnippet
 
-#################### Lexer #########################
+# Lexer
 
 # List of token names.
 tokens = (
@@ -29,7 +29,7 @@ def t_error(t):
 # Build the lexer
 lexer = lex.lex()
 
-#################### Parser ########################
+# Parser
 
 # Set up precedence.
 precedence = (

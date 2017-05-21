@@ -2,6 +2,7 @@
 class Snippet:
     pass
 
+
 class CompositeSnippet(Snippet):
     """
     CompositeSnippet compose two snippets with the operand
