@@ -15,3 +15,5 @@ class TestBasicSnippet(TestCase):
 
         self.assertEqual(st.CompositeSnippet(st.SimpleSnippet('if'), '$', st.SimpleSnippet('i==1')),
                          st.CompositeSnippet(st.SimpleSnippet('if'), '$', st.SimpleSnippet('i==1')))
+
+        self.assertFalse(st.SimpleSnippet('if') != st.SimpleSnippet('if'))
