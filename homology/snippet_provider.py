@@ -1,0 +1,4 @@
+
+
+class SnippetProvider():
+    pass
