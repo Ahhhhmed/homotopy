@@ -1,6 +1,6 @@
 import ply.lex as lex
 import ply.yacc as yacc
-from homology.syntax_tree import SimpleSnippet, CompositeSnippet
+from homotopy.syntax_tree import SimpleSnippet, CompositeSnippet
 
 # Lexer
 

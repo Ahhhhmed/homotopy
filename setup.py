@@ -1,9 +1,9 @@
 from distutils.core import setup
 
 setup(
-    name='homology',
+    name='homotopy',
     version='0.0',
-    packages=['homology', 'test'],
+    packages=['homotopy', 'test'],
     url='',
     license='',
     author='Nenad',

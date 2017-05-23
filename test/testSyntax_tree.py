@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import homology.syntax_tree as st
+import homotopy.syntax_tree as st
 
 
 class TestSyntaxTree(TestCase):

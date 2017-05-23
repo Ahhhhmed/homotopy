@@ -1,4 +1,4 @@
-from homology.snippet_provider import SnippetProvider
+from homotopy.snippet_provider import SnippetProvider
 
 snippetProvider = SnippetProvider()
 
