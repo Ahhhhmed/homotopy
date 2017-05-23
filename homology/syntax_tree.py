@@ -1,6 +1,11 @@
+from homology.snippet_provider import SnippetProvider
+
+snippetProvider = SnippetProvider()
+
 
 class Snippet:
-    pass
+    def compile(self):
+        pass
 
 
 class CompositeSnippet(Snippet):
@@ -22,6 +27,10 @@ class CompositeSnippet(Snippet):
                    self.right == other.right
         return False
 
+    def compile(self):
+        return snippetProvider[self.left.compile()].replace(self.operation, snippetProvider[self.right.compile()])
+
+
 
 class SimpleSnippet(Snippet):
     """
@@ -37,3 +46,6 @@ class SimpleSnippet(Snippet):
         if isinstance(other, self.__class__):
             return self.value == other.value
         return False
+
+    def compile(self):
+        return snippetProvider[self.value]

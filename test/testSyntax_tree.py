@@ -18,3 +18,13 @@ class TestSyntaxTree(TestCase):
                          st.CompositeSnippet(st.SimpleSnippet('if'), '$', st.SimpleSnippet('i==1')))
 
         self.assertFalse(st.SimpleSnippet('if') != st.SimpleSnippet('if'))
+
+    def test_compile(self):
+        self.assertEqual(
+            st.CompositeSnippet(
+                st.CompositeSnippet(st.SimpleSnippet('for'), '#', st.SimpleSnippet('i')),
+                '!',
+                st.SimpleSnippet('data')
+            ).compile(),
+            'for i in data:\n\tpass'
+        )
