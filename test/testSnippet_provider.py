@@ -7,5 +7,5 @@ class TestSnippetProvider(TestCase):
     def test_basic(self):
         provider = sp.SnippetProvider()
 
-        self.assertEqual(provider['for'], "for # in %:\n\tpass")
+        self.assertEqual(provider['for'], "for # in !:\n\tpass")
         self.assertEqual(provider['i==5'], "i==5")
