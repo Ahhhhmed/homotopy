@@ -6,7 +6,7 @@ class SnippetProvider:
     """
 
     data = {
-        "for": "for # in %:\n\tpass"
+        "for": "for # in !:\n\tpass"
     }
 
     def __getitem__(self, item):
