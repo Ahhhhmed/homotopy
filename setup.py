@@ -11,5 +11,10 @@ setup(
     description='snippet engine',
     install_requires=[
           'ply',
-    ]
+    ],
+    entry_points={
+        'console_scripts': [
+            'homotopy = homotopy.__main__:main'
+        ]
+    }
 )
