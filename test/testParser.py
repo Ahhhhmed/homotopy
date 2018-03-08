@@ -1,12 +1,15 @@
 from unittest import TestCase
 
-from homotopy.parser import parser
+from homotopy.parser import parser, IllegalCharacter
 from homotopy.syntax_tree import SimpleSnippet, CompositeSnippet
 
 
 class TestParser(TestCase):
     def test_basic(self):
         self.assertEqual(parser.parse('asd'), SimpleSnippet('asd'))
+
+        with self.assertRaises(IllegalCharacter):
+            parser.parse("☼")
 
     def test_left_associativity(self):
         left = '!@#'

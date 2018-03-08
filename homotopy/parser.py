@@ -2,9 +2,17 @@ import ply.lex as lex
 import ply.yacc as yacc
 from homotopy.syntax_tree import SimpleSnippet, CompositeSnippet
 
+# Exceptions
+
+
+class IllegalCharacter(Exception):
+    pass
+
 # Lexer
 
 # List of token names.
+
+
 tokens = (
     'SNIPPET',
     'LEFT_OPERATOR',
@@ -23,10 +31,11 @@ t_RIGHT_OPERATOR = r'[{1}][{0}{1}]*'.format(left, right)
 
 # Error handling rule
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
+    raise IllegalCharacter(t.value[0])
 
 # Build the lexer
+
+
 lexer = lex.lex()
 
 # Parser
