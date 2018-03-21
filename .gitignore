@@ -167,3 +167,7 @@ venv.bak/
 
 
 # End of https://www.gitignore.io/api/python,pycharm
+
+# parser files
+homotopy/parser.out
+homotopy/parsetab.py
