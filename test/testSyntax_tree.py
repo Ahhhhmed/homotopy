@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 import homotopy.syntax_tree as st
 
@@ -21,9 +22,11 @@ class TestSyntaxTree(TestCase):
 
         self.assertFalse(st.SimpleSnippet('if') != st.SimpleSnippet('if'))
 
-
-    def test_compile(self):
+    @patch('homotopy.snippet_provider.SnippetProvider.__getitem__')
+    def test_compile(self, mockProvider):
         self.assertIsNone(st.Snippet().compile())
+
+        mockProvider.side_effect = lambda x: x if x != "for" else "for # in !:\n\tpass"
 
         self.assertEqual(
             st.CompositeSnippet(

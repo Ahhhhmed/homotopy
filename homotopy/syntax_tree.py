@@ -1,6 +1,4 @@
-from homotopy.snippet_provider import SnippetProvider
-
-snippetProvider = SnippetProvider()
+from homotopy.snippet_provider import snippetProvider
 
 
 class Snippet:
