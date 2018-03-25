@@ -6,12 +6,13 @@ import logging
 class SnippetProvider:
     """
     Class for translating simple snippets into code.
-    Uses a database provided in json files located in path variable.
+    Uses a database provided in json files located in the path variable.
     """
 
     def __init__(self, language="", path=[]):
         """
         Initialize snippet provider instance.
+
         :param language: language to compile to
         :param path: list of directories to search for json files containing snippets
         """
@@ -31,7 +32,8 @@ class SnippetProvider:
 
     def __getitem__(self, item):
         """
-        Expand single snippet
+        Expand single snippet.
+
         :param item: snippet
         :return: snippet expansion
         """

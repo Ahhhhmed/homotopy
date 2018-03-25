@@ -13,8 +13,4 @@ Homotopy documentation
    getting_started
    contributing
 
-This is a test for sphinx and Read the Docs. I will add documentation later.
-
-Testing Autodoc functionality:
-
-.. autoclass:: homotopy.snippet_provider.SnippetProvider
+Under development.
