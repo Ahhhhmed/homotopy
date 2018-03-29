@@ -1,6 +1,8 @@
 import argparse
 import homotopy.parser
 
+from homotopy.compiler import Compiler
+
 
 def main():
     parser = argparse.ArgumentParser(description="Compile a snippet.")
@@ -8,7 +10,8 @@ def main():
 
     snippet = parser.parse_args().snippet[0]
 
-    print(homotopy.parser.parser.parse(snippet).compile())
+    print(Compiler().compile(homotopy.parser.parser.parse(snippet)))
+
 
 if __name__ == "__main__":
     main()

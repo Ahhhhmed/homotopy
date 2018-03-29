@@ -38,6 +38,7 @@ The code is separated in several components:
 * `Parser`_
 * `Syntax tree`_
 * `Snippet provider`_
+* `Compiler`_
 * `Utilities`_
 * `Application frontend`_
 
@@ -92,6 +93,61 @@ Using this class should be straightforward. Look.
     provider = SnippetProvider("C++", ["folder1", "folder2"])
     snippet = "for"
     snippetExpansion = provider[snippet] # snippetExpansion == "for(#){$}" if used json from above
+
+Compiler
+^^^^^^^^
+
+Compiler is responsible for turning a syntax tree into output code. It uses `snippet provider`_ for simple snippets.
+General rules used by compiler will be discussed in this section.
+
+Simple substitution
+"""""""""""""""""""
+
+Consider the following snippet definition.
+
+.. code-block:: json
+
+    {"name": "if","language": "C++","snippet": "if(#){$}"}
+
+Snippet :code:`if#true$i=3;` is expanded in the following way:
+
+* :code:`if` becomes :code:`if(#){$}` from the definition.
+* :code:`#` gets replaced by :code:`true` to get :code:`if(true){$}`.
+* :code:`$` gets replaced by :code:`i=3;` to get the final output :code:`if(true){i=3;}`.
+
+The value of an operator gets replace by the value provided in the snippet.
+This is done for every operator to get the final result.
+
+Definition expansion
+""""""""""""""""""""
+
+Consider a snippet for a function call. Writing :code:`fun!foo#a#b#c` should return :code:`foo(a,b,c)`.
+To write a single snippet definition for all functions would mean supporting variable number of parameters.
+
+This is possible using snippet definitions inside snippets.
+
+.. code-block:: json
+
+    [
+    {"name": "fun","language": "python","snippet": "!({{params}})"},
+    {"name": "params","language": "python","snippet": "#{{opt_params}}"},
+    {"name": "opt_params","language": "python","snippet": ", #{{opt_params}}"}
+    ]
+
+Snippet :code:`fun!foo#a#b` is expanded in the following way:
+
+* :code:`fun` becomes :code:`!({{params}})` from the definition.
+* :code:`!` gets replaced by :code:`foo` to get :code:`foo({{params}})`.
+* :code:`#` does not exist in :code:`foo({{params}})` so :code:`{{params}}` get expanded to :code:`#{{opt_params}}`.
+* :code:`#` gets replaced by :code:`a;` to get :code:`foo(a{{opt_params}})`
+* :code:`#` does not exist in :code:`foo(a{{opt_params}})` so :code:`{{opt_params}}`
+  get expanded to :code:`, #{{opt_params}}`.
+* :code:`#` gets replaced by :code:`b;` to get :code:`foo(a, b{{opt_params}})`.
+* :code:`{{opt_params}}` gets removed from final result to get :code:`foo(a,b)`.
+
+Expansion is done in case `simple substitution`_ can't be done.
+This enables recursive constructs as shown in the example above.
+Number of expansion performed is capped to prevent infinite recursions.
 
 Utilities
 ^^^^^^^^^
