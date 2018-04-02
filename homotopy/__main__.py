@@ -10,7 +10,7 @@ def main():
 
     snippet = parser.parse_args().snippet[0]
 
-    print(Compiler().compile(homotopy.parser.parser.parse(snippet)))
+    print(Compiler().compile(homotopy.parser.parser.parse(snippet)), end='')
 
 
 if __name__ == "__main__":
