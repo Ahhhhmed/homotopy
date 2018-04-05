@@ -1,19 +1,26 @@
+from lib2to3.pgen2 import parse
 from unittest import TestCase
 
-from homotopy.parser import parser, IllegalCharacter
+from homotopy.parser import parser
 from homotopy.syntax_tree import SimpleSnippet, CompositeSnippet
 
 
 class TestParser(TestCase):
     def test_basic(self):
+        self.assertEqual(parser.parse(''), SimpleSnippet(''))
+
         self.assertEqual(parser.parse('asd'), SimpleSnippet('asd'))
+        self.assertEqual(parser.parse('asd#'), CompositeSnippet(SimpleSnippet('asd'), '#', SimpleSnippet('')))
+        self.assertEqual(parser.parse('asd!#1'),
+                         CompositeSnippet(
+                             CompositeSnippet(SimpleSnippet('asd'), '!',
+                                              SimpleSnippet('')), '#',
+                             SimpleSnippet('1'))
+                         )
 
-        with self.assertRaises(IllegalCharacter):
-            parser.parse("☼")
-
-    def test_left_associativity(self):
-        left = '!@#'
-        for l in left:
+    def test_parameters(self):
+        operators = '!@#$%:~'
+        for l in operators:
             self.assertEqual(parser.parse('first{0}second{0}third'.format(l)),
                              CompositeSnippet(
                                  CompositeSnippet(SimpleSnippet('first'), l,
@@ -21,12 +28,43 @@ class TestParser(TestCase):
                                  SimpleSnippet('third'))
                              )
 
-    def test_right_associativity(self):
-        right = '$%:'
-        for r in right:
-            self.assertEqual(parser.parse('first{0}second{0}third'.format(r)),
-                             CompositeSnippet(SimpleSnippet('first'), r,
-                                              CompositeSnippet(SimpleSnippet('second'), r,
-                                                               SimpleSnippet('third'))
-                                              )
-                             )
+    def test_into(self):
+        self.assertEqual(parser.parse('asd>dsa'), CompositeSnippet(SimpleSnippet('asd'), '>', SimpleSnippet('dsa')))
+        self.assertEqual(parser.parse('asd>dsa#2'),
+                         CompositeSnippet(SimpleSnippet('asd'), '>',
+                                          CompositeSnippet(SimpleSnippet('dsa'), '#',
+                                                           SimpleSnippet('2')))
+                         )
+
+        self.assertEqual(parser.parse('for>if&if'),
+                         CompositeSnippet(
+                             CompositeSnippet(SimpleSnippet('for'), '>',
+                                              SimpleSnippet('if')), '>',
+                             SimpleSnippet('if'))
+                         )
+
+        self.assertEqual(parser.parse('for>if>if<if'),
+                         CompositeSnippet(
+                             CompositeSnippet(SimpleSnippet('for'), '>',
+                                              CompositeSnippet(SimpleSnippet('if'), '>', SimpleSnippet('if'))), '>',
+                             SimpleSnippet('if'))
+                         )
+
+        self.assertEqual(parser.parse('for>if>if>if<<if'),
+                         CompositeSnippet(
+                             CompositeSnippet(SimpleSnippet('for'), '>',
+                                              CompositeSnippet(SimpleSnippet('if'), '>',
+                                                               CompositeSnippet(
+                                                                   SimpleSnippet('if'), '>',
+                                                               SimpleSnippet('if')))), '>',
+                             SimpleSnippet('if'))
+                         )
+
+        self.assertEqual(parser.parse('for>if#5>if<if'),
+                         CompositeSnippet(
+                             CompositeSnippet(SimpleSnippet('for'), '>',
+                                              CompositeSnippet(
+                                                  CompositeSnippet(SimpleSnippet('if'), '#', SimpleSnippet('5')), '>',
+                                                  SimpleSnippet('if'))), '>',
+                             SimpleSnippet('if'))
+                         )

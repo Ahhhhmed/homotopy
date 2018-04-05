@@ -1,67 +1,53 @@
-import ply.lex as lex
-import ply.yacc as yacc
 from homotopy.syntax_tree import SimpleSnippet, CompositeSnippet
 
-# Exceptions
+
+class Parser:
+    parameter_chars = "!@#$%:~"
+    in_operator = '>'
+    out_operator = '<'
+    and_operator = '&'
+
+    @staticmethod
+    def parse(snippet_text):
+        stack = []
+        current_match = []
+        last_operator = Parser.in_operator
+
+        for c in snippet_text + "\0":
+            if c in Parser.parameter_chars or c in ["\0", Parser.in_operator, Parser.out_operator, Parser.and_operator]:
+                if last_operator == Parser.in_operator:
+                    stack.append(SimpleSnippet("".join(current_match)))
+                else:
+                    current_snippet = stack.pop()
+                    stack.append(
+                        CompositeSnippet(current_snippet, last_operator, SimpleSnippet("".join(current_match))))
+
+                last_operator = c
+                current_match.clear()
+            else:
+                current_match.append(c)
+
+            if c == Parser.and_operator:
+                last_operator = Parser.in_operator
+                Parser.merge_stack(stack)
+
+            if c == Parser.out_operator:
+                last_operator = Parser.in_operator
+
+                for _ in range(2):
+                    Parser.merge_stack(stack)
+
+        while len(stack) > 1:
+            Parser.merge_stack(stack)
+
+        return stack.pop()
+
+    @staticmethod
+    def merge_stack(stack):
+        last_tree = stack.pop()
+        if last_tree != SimpleSnippet(''):
+            next_tree = stack.pop()
+            stack.append(CompositeSnippet(next_tree, Parser.in_operator, last_tree))
 
 
-class IllegalCharacter(Exception):
-    pass
-
-# Lexer
-
-# List of token names.
-
-
-tokens = (
-    'SNIPPET',
-    'LEFT_OPERATOR',
-    'RIGHT_OPERATOR',
-)
-
-# Starting letters of operators.
-left = '!@#'
-right = '$%:'
-
-# Regular expression rules for tokens
-t_SNIPPET = r'[a-zA-Z_0-9]+'
-t_LEFT_OPERATOR = r'[{0}][{0}{1}]*'.format(left, right)
-t_RIGHT_OPERATOR = r'[{1}][{0}{1}]*'.format(left, right)
-
-
-# Error handling rule
-def t_error(t):
-    raise IllegalCharacter(t.value[0])
-
-# Build the lexer
-
-
-lexer = lex.lex()
-
-# Parser
-
-# Set up precedence.
-precedence = (
-    ('left', 'LEFT_OPERATOR'),
-    ('right', 'RIGHT_OPERATOR'),
-)
-
-
-# Grammar rules.
-def p_expression_plus(p):
-    """
-    expression : expression LEFT_OPERATOR expression
-               | expression RIGHT_OPERATOR expression
-    """
-    p[0] = CompositeSnippet(p[1], p[2], p[3])
-
-
-def p_expression_minus(p):
-    """
-    expression : SNIPPET 
-    """
-    p[0] = SimpleSnippet(p[1])
-
-
-# Build the parser
-parser = yacc.yacc()
+parser = Parser()

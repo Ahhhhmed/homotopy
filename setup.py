@@ -10,7 +10,7 @@ setup(
     author_email='ahhhhmed@gmail.com',
     description='snippet engine',
     install_requires=[
-          'ply',
+
     ],
     entry_points={
         'console_scripts': [

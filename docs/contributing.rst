@@ -45,7 +45,72 @@ The code is separated in several components:
 Parser
 ^^^^^^
 
-Responsible for converting snippet string to a syntax tree instance. Uses Ply_ to do the parsing.
+Responsible for converting snippet string to a syntax tree instance.
+
+Parameters
+""""""""""
+
+Basic functionality is adding parameters to a snippet.
+
+.. code-block:: text
+
+   snippet#parameter1$parameter2
+
+This should become:
+
+.. code-block:: text
+
+               $
+              / \
+             /   \
+            #    parameter2
+           / \
+          /   \
+     snippet  parameter1
+
+Following characters are used to indicate parameters:
+
+.. code-block:: python
+
+    {'!', '@', '#', '$', '%', ':', '~'}
+
+Inside snippets
+"""""""""""""""
+
+Snippets can have other snippets insight them (like body of a for loop for example).
+Snippets are separated by special characters that determine their relations.
+
+* :code:`>` move to the inside of a snippet
+* :code:`<` move to another snippet on the level above
+* :code:`&` move to another snippet on the same level
+
+Example:
+
+.. code-block:: text
+
+    for>if>if<if&if
+
+This should be translated to:
+
+.. code-block:: text
+
+                       >
+                      / \
+                     /   \
+                    >    if
+                   / \
+                  /   \
+                 >    if
+                / \
+               /   \
+              for   >
+                   / \
+                  /   \
+                 if   if
+
+Character :code:`>` is used to donate the inside of a snippet in snippet definitions.
+This is why all occurrences of :code:`<` and :code:`&` are translated to :code:`>`.
+
 
 Syntax tree
 ^^^^^^^^^^^
@@ -158,6 +223,3 @@ Application frontend
 ^^^^^^^^^^^^^^^^^^^^
 
 Console application frontend.
-
-.. links
-.. _Ply: http://www.dabeaz.com/ply/
