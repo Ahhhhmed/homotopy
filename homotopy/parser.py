@@ -2,6 +2,9 @@ from homotopy.syntax_tree import SimpleSnippet, CompositeSnippet
 
 
 class Parser:
+    """
+    Class for parsing a string to produce a syntax tree.
+    """
     parameter_chars = "!@#$%:~"
     in_operator = '>'
     out_operator = '<'
@@ -9,6 +12,12 @@ class Parser:
 
     @staticmethod
     def parse(snippet_text):
+        """
+        Parsing a string to produce syntax tree.
+
+        :param snippet_text: Text to parse
+        :return: syntax tree instance corresponding to given text
+        """
         stack = []
         current_match = []
         last_operator = Parser.in_operator
@@ -44,6 +53,12 @@ class Parser:
 
     @staticmethod
     def merge_stack(stack):
+        """
+        Helper method to combine two snippets on top of the stack.
+
+        :param stack: Stack
+        :return: None
+        """
         last_tree = stack.pop()
         if last_tree != SimpleSnippet(''):
             next_tree = stack.pop()
