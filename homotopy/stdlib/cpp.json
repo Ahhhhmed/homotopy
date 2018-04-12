@@ -1,0 +1,19 @@
+[
+  {"name": "for","language": "C++","snippet": "for(### $$$; $$$<%%%; $$$++){\n{{inside_block}}\n}"},
+  {"name": "forr","language": "C++","snippet": "for(### $$$=%%%; $$$>=0; $$$--){\n{{inside_block}}\n}"},
+  {"name": "forin","language": "C++","snippet": "for(auto&& $$$: %%%){\n{{inside_block}}\n}"},
+  {"name": "if","language": "C++","snippet": "if(###){\n{{inside_block}}\n}"},
+  {"name": "inside_block","language": "C++","snippet": "\t>>>{{opt_inside_block}}"},
+  {"name": "opt_inside_block","language": "C++","snippet": "\n\t>>>{{opt_inside_block}}"},
+  {"name": "switch","language": "C++","snippet": "switch($$$){\n{{inside_block}}\n}"},
+  {"name": "case","language": "C++","snippet": "case $$$:\n{{inside_block}}\n\tbreak;{{opt_case}}"},
+  {"name": "opt_case","language": "C++","snippet": "\ncase $$$:\n{{inside_block}}\n\tbreak;{{opt_case}}"},
+  {"name": "struct","language": "C++","snippet": "struct ###{{pub_extend}} {\n{{inside_block}}\n};"},
+  {"name": "class","language": "C++","snippet": "class ###{{pub_extend}}{{priv_extend}}{{prot_extend}} {\n{{inside_block}}\n};"},
+  {"name": "pub_extend","language": "C++","snippet": ": public :::"},
+  {"name": "priv_extend","language": "C++","snippet": ": private ~~~"},
+  {"name": "prot_extend","language": "C++","snippet": ": protected %%%"},
+  {"name": "func","language": "C++","snippet": "### $$$({{params}}){\n{{inside_block}}\n}"},
+  {"name": "params","language": "C++","snippet": "### $$${{opt_params}}"},
+  {"name": "opt_params","language": "C++","snippet": ", ### $$${{opt_params}}"}
+]

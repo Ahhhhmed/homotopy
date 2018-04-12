@@ -12,6 +12,8 @@ setup(
     install_requires=[
 
     ],
+    include_package_data=True,
+    package_data={'homotopy': ['stdlib/*']},
     entry_points={
         'console_scripts': [
             'homotopy = homotopy.__main__:main'

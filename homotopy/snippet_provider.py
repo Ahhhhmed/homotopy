@@ -42,4 +42,6 @@ class SnippetProvider:
         return item
 
 
-snippetProvider = SnippetProvider()
+stdlib_path = os.path.join(os.path.split(__file__)[0], 'stdlib')
+
+snippetProvider = SnippetProvider(language='c++', path=[stdlib_path])
