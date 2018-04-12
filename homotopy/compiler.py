@@ -6,27 +6,34 @@ import logging
 
 
 class Compiler(SnippetVisitor):
-    def __init__(self, expansion_level_count=2):
-        self.expansion_level_count = expansion_level_count
-
     def visit_composite_snippet(self, composite_snippet):
         left_side = snippetProvider[self.visit(composite_snippet.left)]
-        right_side = snippetProvider[self.visit(composite_snippet.right)]
+        right_side = snippetProvider[self.compile(composite_snippet.right)]
 
-        if composite_snippet.operation in left_side:
-            return left_side.replace(composite_snippet.operation, right_side)
+        operation_text = composite_snippet.operation*3
+
+        if operation_text in left_side:
+            return left_side.replace(operation_text, right_side)
         else:
             expanded_left_side = left_side
+            match_found = False
 
-            for _ in range(self.expansion_level_count):
-                expanded_left_side = re.sub(
-                    r'{{(.*?)}}',
-                    lambda match_object: snippetProvider[match_object.group(1)],
-                    expanded_left_side,
-                    count=1)
+            def expansion_function(match_object):
+                nonlocal match_found
 
-                if composite_snippet.operation in expanded_left_side:
-                    return expanded_left_side.replace(composite_snippet.operation, right_side)
+                if not match_found and operation_text in snippetProvider[match_object.group(1)]:
+                    match_found = True
+                    return snippetProvider[match_object.group(1)]
+
+                return match_object.group(0)
+
+            expanded_left_side = re.sub(
+                r'{{(.*?)}}',
+                expansion_function,
+                expanded_left_side)
+
+            if operation_text in expanded_left_side:
+                return expanded_left_side.replace(operation_text, right_side)
 
         logging.warning("No match found. Ignoring right side of the snippet.")
         return left_side

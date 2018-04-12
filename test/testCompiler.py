@@ -12,14 +12,13 @@ class TestCompiler(TestCase):
             Compiler().compile(st.Snippet())
 
         data = {
-            "for": "for # in !:\n\tpass",
-            "def": "def !({{params}}):\n\tpass",
-            "params": "#{{opt_params}}",
-            "opt_params": ", #{{opt_params}}",
-            "a1": "{{a2}}",
-            "a2": "{{a3}}",
-            "a3": "{{a4}}",
-            "a4": "#"
+            "for": "for ### in !!!:\n\tpass",
+            "def": "def !!!({{params}}):\n\tpass",
+            "params": "###{{opt_params}}",
+            "opt_params": ", ###{{opt_params}}",
+            "multiple": "{{goo}}{{doo}}",
+            "goo": "goo ###",
+            "doo": "doo $$$"
         }
 
         mock_provider.side_effect = lambda x: x if x not in data else data[x]
@@ -33,6 +32,24 @@ class TestCompiler(TestCase):
             'for i in data:\n\tpass'
         )
 
+        self.assertEqual(
+            Compiler().compile(st.CompositeSnippet(
+                st.SimpleSnippet('multiple'),
+                '$',
+                st.SimpleSnippet('asd')
+            )),
+            'doo asd'
+        )
+
+        self.assertEqual(
+            Compiler().compile(st.CompositeSnippet(
+                st.SimpleSnippet('multiple'),
+                '#',
+                st.SimpleSnippet('asd')
+            )),
+            'goo asd'
+        )
+
         with patch('logging.warning', MagicMock()) as m:
             self.assertEqual(
                 Compiler().compile(st.CompositeSnippet(
@@ -40,20 +57,30 @@ class TestCompiler(TestCase):
                     '%',
                     st.SimpleSnippet('data')
                 )),
-                'for i in !:\n\tpass'
+                'for i in !!!:\n\tpass'
             )
 
             m.assert_called_once_with("No match found. Ignoring right side of the snippet.")
 
         with patch('logging.warning', MagicMock()) as m:
             self.assertEqual(
-                Compiler().compile(st.CompositeSnippet(st.SimpleSnippet('a1'), '#', st.SimpleSnippet('i'))),
-                ''
-            )
-
-            self.assertEqual(
-                Compiler(expansion_level_count=3).compile(st.CompositeSnippet(st.SimpleSnippet('a1'), '#', st.SimpleSnippet('i'))),
-                'i'
+                Compiler().compile(st.CompositeSnippet(
+                    st.CompositeSnippet(
+                        st.SimpleSnippet('doo'),
+                        '$',
+                        st.CompositeSnippet(
+                            st.CompositeSnippet(
+                                st.SimpleSnippet('def'),
+                                '!',
+                                st.SimpleSnippet('foo')
+                            ),
+                            '#',
+                            st.SimpleSnippet('a')
+                        )),
+                    '#',
+                    st.SimpleSnippet('b')
+                )),
+                'doo def foo(a):\n\tpass'
             )
 
             m.assert_called_once_with("No match found. Ignoring right side of the snippet.")

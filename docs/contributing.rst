@@ -133,8 +133,8 @@ Snippets definition are writen in json files as shown is the following example.
 .. code-block:: json
 
     [
-    {"name": "for","language": "C++","snippet": "for(#){$}"},
-    {"name": "if","language": "C++","snippet": "if(#){$}"}
+    {"name": "for","language": "C++","snippet": "for(###){$$$}"},
+    {"name": "if","language": "C++","snippet": "if(###){$$$}"}
     ]
 
 Implementation
@@ -157,7 +157,7 @@ Using this class should be straightforward. Look.
 
     provider = SnippetProvider("C++", ["folder1", "folder2"])
     snippet = "for"
-    snippetExpansion = provider[snippet] # snippetExpansion == "for(#){$}" if used json from above
+    snippetExpansion = provider[snippet] # snippetExpansion == "for(###){$$$}" if used with json from above
 
 Compiler
 ^^^^^^^^
@@ -172,16 +172,19 @@ Consider the following snippet definition.
 
 .. code-block:: json
 
-    {"name": "if","language": "C++","snippet": "if(#){$}"}
+    {"name": "if","language": "C++","snippet": "if(###){$$$}"}
 
 Snippet :code:`if#true$i=3;` is expanded in the following way:
 
-* :code:`if` becomes :code:`if(#){$}` from the definition.
-* :code:`#` gets replaced by :code:`true` to get :code:`if(true){$}`.
-* :code:`$` gets replaced by :code:`i=3;` to get the final output :code:`if(true){i=3;}`.
+* :code:`if` becomes :code:`if(###){$$$}` from the definition.
+* :code:`###` gets replaced by :code:`true` to get :code:`if(true){$$$}`.
+* :code:`$$$` gets replaced by :code:`i=3;` to get the final output :code:`if(true){i=3;}`.
 
 The value of an operator gets replace by the value provided in the snippet.
 This is done for every operator to get the final result.
+Note that there are 3 characters in snippet definition and only one in the snippet.
+The reason for this is that special characters used by homotopy are also used by other programming languages.
+For example, :code:`$` is a part of a variable name in php.
 
 Definition expansion
 """"""""""""""""""""
@@ -194,25 +197,28 @@ This is possible using snippet definitions inside snippets.
 .. code-block:: json
 
     [
-    {"name": "fun","language": "python","snippet": "!({{params}})"},
-    {"name": "params","language": "python","snippet": "#{{opt_params}}"},
-    {"name": "opt_params","language": "python","snippet": ", #{{opt_params}}"}
+    {"name": "fun","language": "python","snippet": "!!!({{params}})"},
+    {"name": "params","language": "python","snippet": "###{{opt_params}}"},
+    {"name": "opt_params","language": "python","snippet": ", ###{{opt_params}}"}
     ]
 
 Snippet :code:`fun!foo#a#b` is expanded in the following way:
 
-* :code:`fun` becomes :code:`!({{params}})` from the definition.
-* :code:`!` gets replaced by :code:`foo` to get :code:`foo({{params}})`.
-* :code:`#` does not exist in :code:`foo({{params}})` so :code:`{{params}}` get expanded to :code:`#{{opt_params}}`.
-* :code:`#` gets replaced by :code:`a;` to get :code:`foo(a{{opt_params}})`
-* :code:`#` does not exist in :code:`foo(a{{opt_params}})` so :code:`{{opt_params}}`
-  get expanded to :code:`, #{{opt_params}}`.
-* :code:`#` gets replaced by :code:`b;` to get :code:`foo(a, b{{opt_params}})`.
+* :code:`fun` becomes :code:`!!!({{params}})` from the definition.
+* :code:`!!!` gets replaced by :code:`foo` to get :code:`foo({{params}})`.
+* :code:`###` does not exist in :code:`foo({{params}})` so :code:`{{params}}` get expanded to :code:`###{{opt_params}}`.
+* :code:`###` gets replaced by :code:`a;` to get :code:`foo(a{{opt_params}})`
+* :code:`###` does not exist in :code:`foo(a{{opt_params}})` so :code:`{{opt_params}}`
+  get expanded to :code:`, ###{{opt_params}}`.
+* :code:`###` gets replaced by :code:`b;` to get :code:`foo(a, b{{opt_params}})`.
 * :code:`{{opt_params}}` gets removed from final result to get :code:`foo(a,b)`.
 
 Expansion is done in case `simple substitution`_ can't be done.
 This enables recursive constructs as shown in the example above.
-Number of expansion performed is capped to prevent infinite recursions.
+
+Note that there might be multiple sub-snippets inside a single snippet.
+In that case the first one containing required operator in its definition gets expanded.
+Other sub-snippets do not get expanded.
 
 Utilities
 ^^^^^^^^^
