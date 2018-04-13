@@ -68,3 +68,28 @@ class TestParser(TestCase):
                                                   SimpleSnippet('if'))), '>',
                              SimpleSnippet('if'))
                          )
+
+        self.assertEqual(parser.parse('for&for'),
+                         CompositeSnippet(
+                             CompositeSnippet(
+                                 SimpleSnippet('block'),
+                                 '>',
+                                 SimpleSnippet('for')),
+                             '>',
+                             SimpleSnippet('for')
+                         ))
+
+        self.assertEqual(parser.parse('for>if<if'),
+                         CompositeSnippet(
+                             CompositeSnippet(
+                                 SimpleSnippet('block'),
+                                 '>',
+                                 CompositeSnippet(
+                                     SimpleSnippet('for'),
+                                     '>',
+                                     SimpleSnippet('if')
+                                 )
+                             ),
+                             '>',
+                             SimpleSnippet('if')
+                         ))

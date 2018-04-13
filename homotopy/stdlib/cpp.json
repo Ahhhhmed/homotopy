@@ -15,5 +15,7 @@
   {"name": "prot_extend","language": "C++","snippet": ": protected %%%"},
   {"name": "func","language": "C++","snippet": "### $$$({{params}}){\n{{inside_block}}\n}"},
   {"name": "params","language": "C++","snippet": "### $$${{opt_params}}"},
-  {"name": "opt_params","language": "C++","snippet": ", ### $$${{opt_params}}"}
+  {"name": "opt_params","language": "C++","snippet": ", ### $$${{opt_params}}"},
+  {"name": "block","language": "C++","snippet": ">>>{{opt_block}}"},
+  {"name": "opt_block","language": "C++","snippet": "\n>>>{{opt_block}}"}
 ]

@@ -111,6 +111,19 @@ This should be translated to:
 Character :code:`>` is used to donate the inside of a snippet in snippet definitions.
 This is why all occurrences of :code:`<` and :code:`&` are translated to :code:`>`.
 
+Implicit snippet
+""""""""""""""""
+
+Consider following example:
+
+.. code-block:: text
+
+    for>if<while
+
+The :code:`while` is not a part of :code:`for` snippet.
+Parser creates an implicit :code:`block` snippet at the beginning.
+:code:`block` snippet is implemented as a list of sub-snippets in new lines.
+
 
 Syntax tree
 ^^^^^^^^^^^
