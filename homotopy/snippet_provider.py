@@ -9,6 +9,10 @@ class SnippetProvider:
     Uses a database provided in json files located in the path variable.
     """
 
+    language_key = "language"
+    name_key = "name"
+    snippet_key = "snippet"
+
     def __init__(self, language="", path=[]):
         """
         Initialize snippet provider instance.
@@ -22,11 +26,23 @@ class SnippetProvider:
         for item in self.path:
             for file in filter(lambda x: x.endswith(".json"), os.listdir(item)):
                 try:
-                    for snippet in filter(lambda x: x["language"].lower() == self.language.lower(), json.load(open(os.path.join(item, file)))):
-                        if snippet["name"] in self.data:
-                            logging.warning("Multiple definition for %s" % snippet["name"])
+                    def language_filter(filter_item):
+                        all_languages = 'all'
+
+                        languages = [filter_item[SnippetProvider.language_key].lower()] \
+                            if type(filter_item[SnippetProvider.language_key]) is str \
+                            else [x.lower() for x in filter_item[SnippetProvider.language_key]]
+
+                        if '~' + self.language.lower() in languages:
+                            return False
+
+                        return all_languages in languages or self.language.lower() in languages
+
+                    for snippet in filter(language_filter, json.load(open(os.path.join(item, file)))):
+                        if snippet[SnippetProvider.name_key] in self.data:
+                            logging.warning("Multiple definition for %s" % snippet[SnippetProvider.name_key])
                         else:
-                            self.data[snippet["name"]] = snippet["snippet"]
+                            self.data[snippet[SnippetProvider.name_key]] = snippet[SnippetProvider.snippet_key]
                 except (ValueError, OSError):
                     logging.warning("Could not get data from file %s" % file, exc_info=True)
 

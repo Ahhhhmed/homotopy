@@ -189,8 +189,11 @@ Snippets definition are writen in json files as shown is the following example.
 
     [
     {"name": "for","language": "C++","snippet": "for(###){$$$}"},
-    {"name": "if","language": "C++","snippet": "if(###){$$$}"}
+    {"name": "if","language": ["C++", "java"],"snippet": "if(###){$$$}"}
     ]
+
+Note that language can be a string or a list of strings. Use :code:`all` for snippets that should always be included.
+Language can be excluded by prefixing it with :code:`~` (for example :code:`~c++`).
 
 Implementation
 """"""""""""""

@@ -24,7 +24,8 @@ class TestSnippetProvider(TestCase):
 
         self.assertDictEqual(sp.SnippetProvider().data, {}, "Snippet provider should be empty.")
 
-        with patch('builtins.open', mock_open(read_data='[{"name": "for","language": "C++","snippet": "if(#){$}"}]')) as m:
+        with patch('builtins.open',
+                   mock_open(read_data='[{"name": "for","language": "C++","snippet": "if(#){$}"}]')) as m:
             provider = sp.SnippetProvider("c++", ["test"])
 
             self.assertEqual("if(#){$}", provider["for"])
@@ -33,7 +34,8 @@ class TestSnippetProvider(TestCase):
 
             listdir.assert_called_once_with("test")
 
-        with patch('builtins.open', mock_open(read_data='[{"name": "for","language": "C++","snippet": "if(#){$}"}]')) as m:
+        with patch('builtins.open',
+                   mock_open(read_data='[{"name": "for","language": "C++","snippet": "if(#){$}"}]')) as m:
             provider = sp.SnippetProvider("java", ["test"])
 
             self.assertEqual("for", provider["for"])
@@ -59,3 +61,33 @@ class TestSnippetProvider(TestCase):
                 provider = sp.SnippetProvider("c++", ["test"])
 
                 m.assert_called_once_with("Multiple definition for for")
+
+        with patch('builtins.open',
+                   mock_open(read_data='[{"name": "for","language": ["C++", "java"],"snippet": "if(#){$}"}]')) as m:
+            provider = sp.SnippetProvider("c++", ["test"])
+
+            self.assertEqual("if(#){$}", provider["for"])
+
+        with patch('builtins.open',
+                   mock_open(read_data='[{"name": "for","language": ["all"],"snippet": "if(#){$}"}]')) as m:
+            provider = sp.SnippetProvider("c++", ["test"])
+
+            self.assertEqual("if(#){$}", provider["for"])
+
+        with patch('builtins.open',
+                   mock_open(read_data='[{"name": "for","language": ["~C++"],"snippet": "if(#){$}"}]')) as m:
+            provider = sp.SnippetProvider("c++", ["test"])
+
+            self.assertEqual("for", provider["for"])
+
+        with patch('builtins.open',
+                   mock_open(read_data='[{"name": "for","language": ["C++", "~C++"],"snippet": "if(#){$}"}]')) as m:
+            provider = sp.SnippetProvider("c++", ["test"])
+
+            self.assertEqual("for", provider["for"])
+
+        with patch('builtins.open',
+                   mock_open(read_data='[{"name": "for","language": ["all", "~C++"],"snippet": "if(#){$}"}]')) as m:
+            provider = sp.SnippetProvider("c++", ["test"])
+
+            self.assertEqual("for", provider["for"])
