@@ -1,5 +1,6 @@
 import argparse
 import homotopy.parser
+from homotopy import preprocessor
 
 from homotopy.compiler import Compiler
 
@@ -10,7 +11,10 @@ def main():
 
     snippet = parser.parse_args().snippet[0]
 
-    print(Compiler().compile(homotopy.parser.parser.parse(snippet)), end='')
+    print(Compiler().compile(homotopy.parser.parser.parse(
+        preprocessor.Preprocessor.put_cursor_marker(
+            preprocessor.Preprocessor.expand_decorators(snippet)))),
+        end='')
 
 
 if __name__ == "__main__":
