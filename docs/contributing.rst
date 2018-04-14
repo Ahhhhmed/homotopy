@@ -35,12 +35,54 @@ Internals
 
 The code is separated in several components:
 
+* `Preprocessor`_
 * `Parser`_
 * `Syntax tree`_
 * `Snippet provider`_
 * `Compiler`_
 * `Utilities`_
 * `Application frontend`_
+
+Preprocessor
+^^^^^^^^^^^^
+
+Before parsing and creating syntax tree some prepossessing is done to enable some feathers.
+
+Decorators
+""""""""""
+
+Consider flowing example:
+
+.. code-block:: text
+
+   1. for#int$i%n
+   2. for[[sup]]
+
+And flowing snippet definition:
+
+.. code-block:: json
+
+    {"name": "sup","language": "C++","snippet": "#int$i%n"}
+
+This pattern occurs often and it is useful to name it and use it by name ('sub' stands for 'standard up').
+More realistic examples are design pattern implementation (singleton for example).
+Another advantage of this approach is that multiple decorators can be combined to make a more complex construction.
+
+Preprocessor detects decorators that are defined in double square brackets and expands them using snippet provider.
+
+Cursor marker
+"""""""""""""
+
+After expanding a snippet user should have the cursor at a convenient location.
+The following rule is followed.
+
+
+*Writing some text after expanding the snippet should have the same effect as
+writing that text and expanding the snippet afterwords.*
+
+
+To enable this preprocessor appends :code:`&[{cursor_marker}]` to the snippet text
+so a plugin can put cursor at the marker location.
 
 Parser
 ^^^^^^
