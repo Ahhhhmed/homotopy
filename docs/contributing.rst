@@ -51,14 +51,14 @@ Before parsing and creating syntax tree some prepossessing is done to enable som
 Decorators
 """"""""""
 
-Consider flowing example:
+Consider following example:
 
 .. code-block:: text
 
    1. for#int$i%n
    2. for[[sup]]
 
-And flowing snippet definition:
+And following snippet definition:
 
 .. code-block:: json
 
@@ -277,6 +277,20 @@ This enables recursive constructs as shown in the example above.
 Note that there might be multiple sub-snippets inside a single snippet.
 In that case the first one containing required operator in its definition gets expanded.
 Other sub-snippets do not get expanded.
+
+Outer parameters
+""""""""""""""""
+
+Accessing outer parameters can be done in the following way:
+
+.. code-block:: json
+
+    [
+    {"name": "constructor","language": "java","snippet": "public {{?###}}(){}"}
+    ]
+
+The snippet above would create a public empty constructor. :code:`{{?###}}` binds to the same value as :code:`{{?###}}`
+from the snippet above the current one. Note that only on level above can be accessed.
 
 Utilities
 ^^^^^^^^^
