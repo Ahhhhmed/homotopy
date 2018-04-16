@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
 import homotopy.syntax_tree as st
-from homotopy.compiler import Compiler
+from homotopy.compiler import Compiler, ContextManager
 
 
 class TestCompiler(TestCase):
@@ -18,7 +18,9 @@ class TestCompiler(TestCase):
             "opt_params": ", ###{{opt_params}}",
             "multiple": "{{goo}}{{doo}}",
             "goo": "goo ###",
-            "doo": "doo $$$"
+            "doo": "doo $$$",
+            "outer": "param: ###, inside: >>>",
+            "inner": "{{?###}} in: >>>"
         }
 
         mock_provider.side_effect = lambda x: x if x not in data else data[x]
@@ -105,3 +107,88 @@ class TestCompiler(TestCase):
                 st.SimpleSnippet('b'))),
             'def foo(a, b):\n\tpass'
         )
+
+        self.assertEqual(
+            Compiler().compile(st.CompositeSnippet(
+                st.CompositeSnippet(
+                    st.SimpleSnippet('outer'),
+                    '#',
+                    st.SimpleSnippet('test')
+                ),
+                '>',
+                st.SimpleSnippet('inner'))),
+            'param: test, inside: test in: >>>'
+        )
+
+        self.assertEqual(
+            Compiler().compile(st.CompositeSnippet(
+                st.CompositeSnippet(
+                    st.SimpleSnippet('outer'),
+                    '#',
+                    st.SimpleSnippet('test')
+                ),
+                '>',
+                st.CompositeSnippet(
+                    st.SimpleSnippet('inner'),
+                    '>',
+                    st.SimpleSnippet('inner')
+                ))),
+            'param: test, inside: test in:  in: >>>'
+        )
+
+
+class TestContextManager(TestCase):
+    def setUp(self):
+        self.cm = ContextManager()
+
+    def test_init(self):
+        self.assertEqual([], self.cm.stack)
+
+    def test_new_scope(self):
+        self.cm.new_scope()
+
+        self.assertEqual([{}], self.cm.stack)
+
+    def test_remove_scope(self):
+        self.cm.new_scope()
+        self.cm.remove_scope()
+
+        self.assertEqual([], self.cm.stack)
+
+        self.cm.remove_scope()
+        self.assertEqual([], self.cm.stack)
+
+    def test_add_variable(self):
+        with self.assertRaises(Exception) as context:
+            self.cm.add_variable("x", "3")
+
+        self.assertEqual("No scope to add variable to", str(context.exception))
+
+        self.cm.new_scope()
+
+        self.cm.add_variable("x", "3")
+        self.assertEqual([{"x": "3"}], self.cm.stack)
+
+        self.cm.add_variable("x", "4")
+        self.assertEqual([{"x": "4"}], self.cm.stack)
+
+        self.cm.add_variable("y", "3")
+        self.assertEqual([{"x": "4", "y": "3"}], self.cm.stack)
+
+    def test_get_item(self):
+        self.assertEqual("", self.cm["x"])
+
+        self.cm.new_scope()
+        self.cm.add_variable("x", "3")
+        self.cm.add_variable("y", "3")
+
+        self.assertEqual("", self.cm["x"])
+
+        self.cm.new_scope()
+        self.assertEqual("3", self.cm["x"])
+
+        self.cm.add_variable("x", "4")
+        self.assertEqual("3", self.cm["x"])
+
+        self.cm.remove_scope()
+        self.assertEqual("", self.cm["x"])
