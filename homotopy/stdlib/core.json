@@ -1,0 +1,4 @@
+[
+  {"name": "block","language": "all","snippet": ">>>{{opt_block}}"},
+  {"name": "opt_block","language": "all","snippet": "\n>>>{{opt_block}}"}
+]

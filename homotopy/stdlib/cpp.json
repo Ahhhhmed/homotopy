@@ -2,7 +2,8 @@
   {"name": "for","language": "C++","snippet": "for(### $$$; $$$<%%%; $$$++){\n{{inside_block}}\n}"},
   {"name": "forr","language": "C++","snippet": "for(### $$$=%%%; $$$>=0; $$$--){\n{{inside_block}}\n}"},
   {"name": "forin","language": "C++","snippet": "for(auto&& $$$: %%%){\n{{inside_block}}\n}"},
-  {"name": "if","language": "C++","snippet": "if(###){\n{{inside_block}}\n}"},
+  {"name": "if","language": "C++","snippet": "if($$$){\n{{inside_block}}\n}"},
+  {"name": "while","language": "C++","snippet": "while($$$){\n{{inside_block}}\n}"},
   {"name": "inside_block","language": "C++","snippet": "\t>>>{{opt_inside_block}}"},
   {"name": "opt_inside_block","language": "C++","snippet": "\n\t>>>{{opt_inside_block}}"},
   {"name": "switch","language": "C++","snippet": "switch($$$){\n{{inside_block}}\n}"},
@@ -13,9 +14,12 @@
   {"name": "pub_extend","language": "C++","snippet": ": public :::"},
   {"name": "priv_extend","language": "C++","snippet": ": private ~~~"},
   {"name": "prot_extend","language": "C++","snippet": ": protected %%%"},
+  {"name": "method","language": "C++","snippet": "public: ### $$$({{params}}){\n{{inside_block}}\n}"},
+  {"name": "pmethod","language": "C++","snippet": "private: ### $$$({{params}}){\n{{inside_block}}\n}"},
+  {"name": "amethod","language": "C++","snippet": "private: ### $$$({{params}}) = 0;"},
+  {"name": "constr","language": "C++","snippet": "public: {{?###}}({{params}}){\n{{inside_block}}\n}"},
+  {"name": "pconstr","language": "C++","snippet": "private: {{?###}}({{params}}){\n{{inside_block}}\n}"},
   {"name": "func","language": "C++","snippet": "### $$$({{params}}){\n{{inside_block}}\n}"},
   {"name": "params","language": "C++","snippet": "### $$${{opt_params}}"},
-  {"name": "opt_params","language": "C++","snippet": ", ### $$${{opt_params}}"},
-  {"name": "block","language": "C++","snippet": ">>>{{opt_block}}"},
-  {"name": "opt_block","language": "C++","snippet": "\n>>>{{opt_block}}"}
+  {"name": "opt_params","language": "C++","snippet": ", ### $$${{opt_params}}"}
 ]

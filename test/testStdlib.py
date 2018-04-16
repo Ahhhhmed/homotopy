@@ -34,8 +34,15 @@ for(int i; i<n; i++){
 }
                 """)
 
-        self.singleSnippet('if#i==3>return 5;', """
+        self.singleSnippet('if$i==3>return 5;', """
 if(i==3){
+\treturn 5;
+\t[{cursor_marker}]
+}
+
+""")
+        self.singleSnippet('while$i==3>return 5;', """
+while(i==3){
 \treturn 5;
 \t[{cursor_marker}]
 }
@@ -101,4 +108,50 @@ class A: private B {
 \t[{cursor_marker}]
 };
 """)
+        self.singleSnippet('class#A>constr#int$i&constr#int$i#int$j', """
+class A {
+\tpublic: A(int i){
 
+}
+\tpublic: A(int i, int j){
+
+}
+\t[{cursor_marker}]
+};
+""")
+        self.singleSnippet('class#A:B>pconstr#int$i', """
+class A: public B {
+\tprivate: A(int i){
+
+}
+\t[{cursor_marker}]
+};
+""")
+        self.singleSnippet('class#A:B>pconstr#int$i&method#void$test#int$value', """
+class A: public B {
+\tprivate: A(int i){
+
+}
+\tpublic: void test(int value){
+
+}
+\t[{cursor_marker}]
+};
+""")
+        self.singleSnippet('class#A:B>pconstr#int$i>// c++ comment&pmethod#int$five>return 5', """
+class A: public B {
+\tprivate: A(int i){
+\t// c++ comment
+\tprivate: int five(){
+\treturn 5
+\t[{cursor_marker}]
+}
+}
+};
+""")
+        self.singleSnippet('class#A:B>amethod#void$name', """
+class A: public B {
+\tprivate: void name() = 0;
+\t[{cursor_marker}]
+};
+""")
