@@ -137,7 +137,7 @@ class TestCompiler(TestCase):
                     '>',
                     st.SimpleSnippet('inner')
                 ))),
-            'param: test, inside: test in:  in: >>>'
+            'param: test, inside: test in: test in: >>>'
         )
 
 

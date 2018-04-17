@@ -140,7 +140,11 @@ class ContextManager:
         :param item: Variable name
         :return: Variable value if it exists. Empty string otherwise
         """
-        if len(self.stack) < 2 or item not in self.stack[-2]:
-            return ""
+        i = 2
+        while i <= len(self.stack):
+            if item in self.stack[-i]:
+                return self.stack[-i][item]
 
-        return self.stack[-2][item]
+            i += 1
+
+        return ""

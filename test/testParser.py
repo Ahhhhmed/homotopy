@@ -93,3 +93,22 @@ class TestParser(TestCase):
                              '>',
                              SimpleSnippet('if')
                          ))
+
+    def test_escape(self):
+        self.assertEqual(parser.parse(r"i\>4"), SimpleSnippet("i>4"))
+        self.assertEqual(parser.parse("ignore\\"), SimpleSnippet("ignore"))
+
+        self.assertEqual(parser.parse(r"i\\>4"),
+                         CompositeSnippet(
+                             SimpleSnippet("i\\"),
+                             '>',
+                             SimpleSnippet("4")
+                         )
+                         )
+
+        self.assertEqual(parser.parse(r"if$i\>4"),
+                         CompositeSnippet(
+                             SimpleSnippet("if"),
+                             '$',
+                             SimpleSnippet("i>4")
+                         ))

@@ -9,6 +9,7 @@ class Parser:
     in_operator = '>'
     out_operator = '<'
     and_operator = '&'
+    escape_character = '\\'
 
     @staticmethod
     def parse(snippet_text):
@@ -21,8 +22,18 @@ class Parser:
         stack = []
         current_match = []
         last_operator = Parser.in_operator
+        in_escape_sequence = False
 
         for c in snippet_text + "\0":
+            if in_escape_sequence and c != "\0":
+                current_match.append(c)
+                in_escape_sequence = False
+                continue
+
+            if c == Parser.escape_character:
+                in_escape_sequence = True
+                continue
+
             if c in Parser.parameter_chars or c in ["\0", Parser.in_operator, Parser.out_operator, Parser.and_operator]:
                 if last_operator == Parser.in_operator:
                     stack.append(SimpleSnippet("".join(current_match)))

@@ -166,6 +166,12 @@ The :code:`while` is not a part of :code:`for` snippet.
 Parser creates an implicit :code:`block` snippet at the beginning.
 :code:`block` snippet is implemented as a list of sub-snippets in new lines.
 
+Escape sequence
+"""""""""""""""
+
+Homotopy uses escape sequence to enable operator usage in snippets.
+Character after :code:`\` will always be a part of snippet and not recognised as an operator.
+
 
 Syntax tree
 ^^^^^^^^^^^
@@ -290,7 +296,7 @@ Accessing outer parameters can be done in the following way:
     ]
 
 The snippet above would create a public empty constructor. :code:`{{?###}}` binds to the same value as :code:`{{?###}}`
-from the snippet above the current one. Note that only on level above can be accessed.
+from the snippet above the current one.
 
 Utilities
 ^^^^^^^^^
