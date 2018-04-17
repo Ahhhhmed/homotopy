@@ -24,7 +24,7 @@ class SnippetProvider:
         self.language = language
         self.path = path
         for item in self.path:
-            for file in filter(lambda x: x.endswith(".json"), os.listdir(item)):
+            for file_name in filter(lambda x: x.endswith(".json"), os.listdir(item)):
                 try:
                     def language_filter(filter_item):
                         all_languages = 'all'
@@ -38,13 +38,14 @@ class SnippetProvider:
 
                         return all_languages in languages or self.language.lower() in languages
 
-                    for snippet in filter(language_filter, json.load(open(os.path.join(item, file)))):
-                        if snippet[SnippetProvider.name_key] in self.data:
-                            logging.warning("Multiple definition for %s" % snippet[SnippetProvider.name_key])
-                        else:
-                            self.data[snippet[SnippetProvider.name_key]] = snippet[SnippetProvider.snippet_key]
+                    with open(os.path.join(item, file_name)) as opened_file:
+                        for snippet in filter(language_filter, json.load(opened_file)):
+                            if snippet[SnippetProvider.name_key] in self.data:
+                                logging.warning("Multiple definition for %s" % snippet[SnippetProvider.name_key])
+                            else:
+                                self.data[snippet[SnippetProvider.name_key]] = snippet[SnippetProvider.snippet_key]
                 except (ValueError, OSError):
-                    logging.warning("Could not get data from file %s" % file, exc_info=True)
+                    logging.warning("Could not get data from file %s" % file_name, exc_info=True)
 
     def __getitem__(self, item):
         """
@@ -57,7 +58,3 @@ class SnippetProvider:
             return self.data[item]
         return item
 
-
-stdlib_path = os.path.join(os.path.split(__file__)[0], 'stdlib')
-
-snippetProvider = SnippetProvider(language='c++', path=[stdlib_path])

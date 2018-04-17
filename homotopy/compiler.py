@@ -1,5 +1,4 @@
 from homotopy.syntax_tree import SnippetVisitor
-from homotopy.snippet_provider import snippetProvider
 from homotopy.parser import Parser
 
 import re
@@ -10,9 +9,10 @@ class Compiler(SnippetVisitor):
     """
     Compiler for snippets. Turns syntax tree into text.
     """
-    def __init__(self):
+    def __init__(self, snippet_provider):
         self.context_manager = ContextManager()
         self.context_manager.new_scope()
+        self.snippet_provider = snippet_provider
 
     def visit_composite_snippet(self, composite_snippet):
         """
@@ -22,12 +22,12 @@ class Compiler(SnippetVisitor):
         :param composite_snippet: Composite snippet
         :return: Text of left side replaced with right side
         """
-        left_side = self.expand_variable_operators(snippetProvider[self.visit(composite_snippet.left)])
+        left_side = self.expand_variable_operators(self.snippet_provider[self.visit(composite_snippet.left)])
 
         if composite_snippet.operation == Parser.in_operator:
             self.context_manager.new_scope()
 
-        right_side = snippetProvider[self.compile(composite_snippet.right)]
+        right_side = self.snippet_provider[self.compile(composite_snippet.right)]
 
         if composite_snippet.operation == Parser.in_operator:
             self.context_manager.remove_scope()
@@ -43,9 +43,9 @@ class Compiler(SnippetVisitor):
             def expansion_function(match_object):
                 nonlocal match_found
 
-                if not match_found and operation_text in snippetProvider[match_object.group(1)]:
+                if not match_found and operation_text in self.snippet_provider[match_object.group(1)]:
                     match_found = True
-                    return snippetProvider[match_object.group(1)]
+                    return self.snippet_provider[match_object.group(1)]
 
                 return match_object.group(0)
 
@@ -67,7 +67,7 @@ class Compiler(SnippetVisitor):
         :param simple_snippet: Simple snippet
         :return: Text of compile snippet
         """
-        return self.expand_variable_operators(snippetProvider[simple_snippet.value])
+        return self.expand_variable_operators(self.snippet_provider[simple_snippet.value])
 
     def expand_variable_operators(self, text):
         """

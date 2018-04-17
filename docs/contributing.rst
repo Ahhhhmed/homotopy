@@ -300,4 +300,54 @@ Utility functionality to help the development of editor add-ons.
 Application frontend
 ^^^^^^^^^^^^^^^^^^^^
 
-Console application frontend.
+Homotopy class
+""""""""""""""
+
+:code:`Homotopy` class scarves as a facade for the whole tool. It should be the eatery point for snippet compilation.
+It can be configured to include additional paths to user defined snippet libraries.
+
+Example:
+
+.. code-block:: python
+
+    from homotopy import Homotopy
+
+    cpp_snippets = Homotopy("c++")
+    print(cpp_snippets.compile('int n=5;&for#int$i%n>printf("hello");'))
+
+outputs:
+
+.. code-block:: text
+
+    int n=5;
+    for(int i=0; i<n; i++){
+        printf("hello");
+    }
+
+.. autoclass:: homotopy.Homotopy
+    :members: compile, add_lib_folder
+
+Console application
+"""""""""""""""""""
+
+Homotopy can also be used as a console application. In fact, this is the intended way of using is via editor plugins.
+
+.. code-block:: text
+
+    C:\dev\homotopy>homotopy -h
+    usage: homotopy [-h] [-t N] [-c] [-p PATH] language snippet
+
+    Compile a snippet.
+
+    positional arguments:
+      language              Language for the snippet to be compiled to
+      snippet               A snippet to be compiled
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -t N, --tabsize N     Number of spaces in one tab. Tabs remain tabs if
+                            absent
+      -c, --cursor          Indicate cursor marker in compiled snippet
+      -p PATH, --path PATH  Path to snippet library folders separated by :
+
+

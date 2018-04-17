@@ -1,5 +1,3 @@
-from homotopy.snippet_provider import snippetProvider
-
 import re
 
 
@@ -9,8 +7,15 @@ class Preprocessor:
     """
     cursor_marker = "[{cursor_marker}]"
 
-    @staticmethod
-    def expand_decorators(snippet_text):
+    def __init__(self, snippet_provider):
+        """
+        Initialize preprocessor instance.
+
+        :param snippet_provider: Snippet provider
+        """
+        self.snippet_provider = snippet_provider
+
+    def expand_decorators(self, snippet_text):
         """
         Expand decorators to enable concise writing of common patterns.
 
@@ -19,7 +24,7 @@ class Preprocessor:
         """
         return re.sub(
                 r'\[\[(.*?)\]\]',
-                lambda match_group: snippetProvider[match_group.group(1)],
+                lambda match_group: self.snippet_provider[match_group.group(1)],
                 snippet_text)
 
     @staticmethod

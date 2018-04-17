@@ -1,15 +1,14 @@
 from unittest import TestCase
 
-from homotopy import parser, compiler, preprocessor
+from homotopy import homotopy
 
 
 class TestStdlib(TestCase):
     def singleSnippet(self, snippet, expected_output):
-        compiled_snippet = compiler.Compiler().compile(
-            parser.parser.parse(
-                preprocessor.Preprocessor.put_cursor_marker(
-                    preprocessor.Preprocessor.expand_decorators(snippet)))
-        )
+        homotopy_instance = homotopy.Homotopy("c++")
+        homotopy_instance.enable_cursor_marker()
+
+        compiled_snippet = homotopy_instance.compile(snippet)
 
         self.assertEqual(expected_output.strip(), compiled_snippet)
 
