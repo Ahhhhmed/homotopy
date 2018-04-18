@@ -4,14 +4,18 @@ from unittest.mock import patch, MagicMock
 import homotopy.syntax_tree as st
 from homotopy.compiler import Compiler, ContextManager
 from homotopy.snippet_provider import SnippetProvider
+from homotopy.indent_manager import IndentManager
 
 
 class TestCompiler(TestCase):
     def setUp(self):
-        self.compiler_instance = Compiler(SnippetProvider())
+        self.compiler_instance = Compiler(SnippetProvider(), IndentManager())
 
+    @patch('homotopy.indent_manager.IndentManager.indent_new_lines')
+    @patch('homotopy.indent_manager.IndentManager.pop_indent')
+    @patch('homotopy.indent_manager.IndentManager.push_indent')
     @patch('homotopy.snippet_provider.SnippetProvider.__getitem__')
-    def test_compile(self, mock_provider):
+    def test_compile(self, mock_provider, mock_push_indent, mock_pop_indent, mock_indent_new_lines):
         with self.assertRaises(NotImplementedError):
             self.compiler_instance.compile(st.Snippet())
 
@@ -28,6 +32,7 @@ class TestCompiler(TestCase):
         }
 
         mock_provider.side_effect = lambda x: x if x not in data else data[x]
+        mock_indent_new_lines.side_effect = lambda x: x
 
         self.assertEqual(
             self.compiler_instance.compile(st.CompositeSnippet(
@@ -139,6 +144,35 @@ class TestCompiler(TestCase):
                 ))),
             'param: test, inside: test in: test in: >>>'
         )
+
+    @patch('homotopy.indent_manager.IndentManager.indent_new_lines')
+    @patch('homotopy.indent_manager.IndentManager.pop_indent')
+    @patch('homotopy.indent_manager.IndentManager.push_indent')
+    @patch('homotopy.snippet_provider.SnippetProvider.__getitem__')
+    def test_indentation(self, mock_provider, mock_push_indent, mock_pop_indent, mock_indent_new_lines):
+        with self.assertRaises(NotImplementedError):
+            self.compiler_instance.compile(st.Snippet())
+
+        data = {
+            "for": "for item in collection:\n\t  \t {{helper}}",
+            "helper": ">>>"
+        }
+
+        mock_provider.side_effect = lambda x: x if x not in data else data[x]
+        mock_indent_new_lines.side_effect = lambda x: x
+
+        self.assertEqual(
+            self.compiler_instance.compile(st.CompositeSnippet(
+                st.SimpleSnippet('for'),
+                '>',
+                st.SimpleSnippet('pass')
+            )),
+            'for item in collection:\n\t  \t pass'
+        )
+
+        mock_push_indent.assert_called_once_with('\t  \t ')
+        mock_indent_new_lines.assert_called_once_with('pass')
+        mock_pop_indent.assert_called_once_with()
 
 
 class TestContextManager(TestCase):

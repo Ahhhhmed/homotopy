@@ -9,10 +9,11 @@ class Compiler(SnippetVisitor):
     """
     Compiler for snippets. Turns syntax tree into text.
     """
-    def __init__(self, snippet_provider):
+    def __init__(self, snippet_provider, indent_manager):
         self.context_manager = ContextManager()
         self.context_manager.new_scope()
         self.snippet_provider = snippet_provider
+        self.indent_manager = indent_manager
 
     def visit_composite_snippet(self, composite_snippet):
         """
@@ -23,19 +24,10 @@ class Compiler(SnippetVisitor):
         :return: Text of left side replaced with right side
         """
         left_side = self.expand_variable_operators(self.snippet_provider[self.visit(composite_snippet.left)])
-
-        if composite_snippet.operation == Parser.in_operator:
-            self.context_manager.new_scope()
-
-        right_side = self.snippet_provider[self.compile(composite_snippet.right)]
-
-        if composite_snippet.operation == Parser.in_operator:
-            self.context_manager.remove_scope()
-
-        operation_text = composite_snippet.operation*3
+        operation_text = composite_snippet.operation * 3
 
         if operation_text in left_side:
-            return self.substitute(left_side, operation_text, right_side)
+            return self.substitute(left_side, composite_snippet.operation, composite_snippet.right, operation_text)
         else:
             expanded_left_side = left_side
             match_found = False
@@ -55,7 +47,7 @@ class Compiler(SnippetVisitor):
                 expanded_left_side)
 
             if operation_text in expanded_left_side:
-                return self.substitute(expanded_left_side, operation_text, right_side)
+                return self.substitute(expanded_left_side, composite_snippet.operation, composite_snippet.right, operation_text)
 
         logging.warning("No match found. Ignoring right side of the snippet.")
         return left_side
@@ -81,10 +73,26 @@ class Compiler(SnippetVisitor):
             lambda match_group: self.context_manager[match_group.group(1)],
             text)
 
-    def substitute(self, left, operation, right):
+    def substitute(self, left, operation, right_tree, operation_text):
+        if operation == Parser.in_operator:
+            self.context_manager.new_scope()
+
+            before_operation_text = left[0:left.find(operation_text)]
+            m = re.search(r"\n([\t ]*)$", before_operation_text)
+            indent = m.group(1) if m else ""
+            self.indent_manager.push_indent(indent)
+
+        right = self.snippet_provider[self.compile(right_tree)]
+
         if operation != Parser.in_operator:
-            self.context_manager.add_variable(operation, right)
-        return left.replace(operation, right)
+            self.context_manager.add_variable(operation_text, right)
+        else:
+            self.context_manager.remove_scope()
+
+            right = self.indent_manager.indent_new_lines(right)
+            self.indent_manager.pop_indent()
+
+        return left.replace(operation_text, right)
 
     def compile(self, snippet):
         """

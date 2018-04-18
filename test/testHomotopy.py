@@ -1,6 +1,7 @@
 from homotopy.homotopy import Homotopy
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
+
 
 class TestHomotopy(TestCase):
     def setUp(self):
@@ -53,8 +54,10 @@ class TestHomotopy(TestCase):
     @patch('homotopy.compiler.Compiler.__init__')
     @patch('homotopy.compiler.Compiler.compile')
     @patch('homotopy.snippet_provider.SnippetProvider')
+    @patch('homotopy.indent_manager.IndentManager')
     def test_compile(
             self,
+            mock_indent_manager,
             mock_provider,
             compile_method,
             compile_init,
@@ -64,6 +67,10 @@ class TestHomotopy(TestCase):
             preprocessor_expand_decorators,
             preprocessor_init,
     ):
+        mock_indent_manager_instance = MagicMock()
+        mock_indent_manager_instance.take_base_indent = MagicMock(side_effect=lambda x: x)
+        mock_indent_manager_instance.indent_base = MagicMock(side_effect=lambda x: x)
+        mock_indent_manager.return_value = mock_indent_manager_instance
         mock_provider.return_value = "mock_provider"
         compile_method.return_value = "compile_method_output"
         compile_init.return_value = None
@@ -80,9 +87,11 @@ class TestHomotopy(TestCase):
 
         mock_provider.assert_called_once_with("c++", ["test_folder", Homotopy.stdlib_path])
         compile_method.assert_called_once_with("parse_method_output")
-        compile_init.assert_called_once_with("mock_provider")
+        compile_init.assert_called_once_with("mock_provider", mock_indent_manager_instance)
         parser_parse.assert_called_once_with("put_cursor_marker_output")
         parser_init.assert_called_once_with()
         preprocessor_put_cursor_marker.assert_called_once_with("expand_decorators_output")
         preprocessor_expand_decorators.assert_called_once_with("test_snippet")
         preprocessor_init.assert_called_once_with("mock_provider")
+        mock_indent_manager_instance.take_base_indent.assert_called_once_with("test_snippet")
+        mock_indent_manager_instance.indent_base.assert_called_once_with("compile_method_output")

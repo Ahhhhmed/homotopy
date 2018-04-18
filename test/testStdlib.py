@@ -10,7 +10,7 @@ class TestStdlib(TestCase):
 
         compiled_snippet = homotopy_instance.compile(snippet)
 
-        self.assertEqual(expected_output.strip(), compiled_snippet)
+        self.assertEqual(expected_output.lstrip('\n').rstrip(), compiled_snippet)
 
     def testCpp(self):
         self.singleSnippet("for#int$i%n", """
@@ -69,22 +69,22 @@ for(auto&& item: collection){
         self.singleSnippet('switch$i>case$1>asd<case$2>dsa', """
 switch(i){
 \tcase 1:
-\tasd
-\tbreak;
+\t\tasd
+\t\tbreak;
 \tcase 2:
-\tdsa
-\t[{cursor_marker}]
-\tbreak;
+\t\tdsa
+\t\t[{cursor_marker}]
+\t\tbreak;
 }
 """)
         self.singleSnippet('switch$i>case$1>asd<case$2>dsa<<', """
 switch(i){
 \tcase 1:
-\tasd
-\tbreak;
+\t\tasd
+\t\tbreak;
 \tcase 2:
-\tdsa
-\tbreak;
+\t\tdsa
+\t\tbreak;
 }
 [{cursor_marker}]
 """)
@@ -103,7 +103,7 @@ class A: protected B {
 class A: private B {
 \tvoid foo(int a, int b){
 
-}
+\t}
 \t[{cursor_marker}]
 };
 """)
@@ -111,10 +111,10 @@ class A: private B {
 class A {
 \tpublic: A(int i){
 
-}
+\t}
 \tpublic: A(int i, int j){
 
-}
+\t}
 \t[{cursor_marker}]
 };
 """)
@@ -122,7 +122,7 @@ class A {
 class A: public B {
 \tprivate: A(int i){
 
-}
+\t}
 \t[{cursor_marker}]
 };
 """)
@@ -130,22 +130,22 @@ class A: public B {
 class A: public B {
 \tprivate: A(int i){
 
-}
+\t}
 \tpublic: void test(int value){
 
-}
+\t}
 \t[{cursor_marker}]
 };
 """)
-        self.singleSnippet('class#A:B>pconstr#int$i>// c++ comment&pmethod#int$five>return 5', """
+        self.singleSnippet('class#A:B>pconstr#int$i>// c++ comment<pmethod#int$five>return 5', """
 class A: public B {
 \tprivate: A(int i){
-\t// c++ comment
+\t\t// c++ comment
+\t}
 \tprivate: int five(){
-\treturn 5
-\t[{cursor_marker}]
-}
-}
+\t\treturn 5
+\t\t[{cursor_marker}]
+\t}
 };
 """)
         self.singleSnippet('class#A:B>amethod#void$name', """
@@ -153,4 +153,10 @@ class A: public B {
 \tprivate: void name() = 0;
 \t[{cursor_marker}]
 };
+""")
+        self.singleSnippet('  class#A:B>amethod#void$name', """
+  class A: public B {
+  \tprivate: void name() = 0;
+  \t[{cursor_marker}]
+  };
 """)
