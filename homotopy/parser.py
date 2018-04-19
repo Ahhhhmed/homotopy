@@ -5,7 +5,7 @@ class Parser:
     """
     Class for parsing a string to produce a syntax tree.
     """
-    parameter_chars = "!@#$%:~"
+    parameter_chars = "!@#$%:~^"
     in_operator = '>'
     out_operator = '<'
     and_operator = '&'

@@ -19,7 +19,7 @@ class TestParser(TestCase):
                          )
 
     def test_parameters(self):
-        operators = '!@#$%:~'
+        operators = '!@#$%:~^'
         for l in operators:
             self.assertEqual(parser.parse('first{0}second{0}third'.format(l)),
                              CompositeSnippet(
