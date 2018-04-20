@@ -1,10 +1,10 @@
 [
   {"name": "block","language": "all","snippet": ">>>{{opt_block}}"},
   {"name": "opt_block","language": "all","snippet": "\n>>>{{opt_block}}"},
-  {"name": "wide_block","language": "all","snippet": ">>>{{opt_wide_block}}"},
-  {"name": "opt_wide_block","language": "all","snippet": "\n\n>>>{{opt_wide_block}}"},
+  {"name": "wblock","language": "all","snippet": ">>>{{opt_wblock}}"},
+  {"name": "opt_wblock","language": "all","snippet": "\n\n>>>{{opt_wblock}}"},
   {"name": "inside_block","language": "C++","snippet": "\t>>>{{opt_inside_block}}"},
   {"name": "opt_inside_block","language": "C++","snippet": "\n\t>>>{{opt_inside_block}}"},
-  {"name": "wide_inside_block","language": "C++","snippet": "\t>>>{{opt_wide_inside_block}}"},
-  {"name": "opt_wide_inside_block","language": "C++","snippet": "\n\n\t>>>{{opt_wide_inside_block}}"}
+  {"name": "winside_block","language": "C++","snippet": "\t>>>{{opt_winside_block}}"},
+  {"name": "opt_winside_block","language": "C++","snippet": "\n\n\t>>>{{opt_winside_block}}"}
 ]

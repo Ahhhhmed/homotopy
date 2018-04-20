@@ -52,4 +52,3 @@ class TestMain(TestCase):
                     call("user_folder2")
                 ])
             mock_compile.assert_called_once_with("invalid_snippet")
-

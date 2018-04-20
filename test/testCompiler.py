@@ -1,21 +1,19 @@
 from unittest import TestCase
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, call
 
 import homotopy.syntax_tree as st
 from homotopy.compiler import Compiler, ContextManager
 from homotopy.snippet_provider import SnippetProvider
-from homotopy.indent_manager import IndentManager
+from homotopy.util import IndentManager
 
 
 class TestCompiler(TestCase):
     def setUp(self):
-        self.compiler_instance = Compiler(SnippetProvider(), IndentManager())
+        self.compiler_instance = Compiler(SnippetProvider("", []), IndentManager())
 
-    @patch('homotopy.indent_manager.IndentManager.indent_new_lines')
-    @patch('homotopy.indent_manager.IndentManager.pop_indent')
-    @patch('homotopy.indent_manager.IndentManager.push_indent')
+    @patch('homotopy.util.IndentManager.indent_new_lines')
     @patch('homotopy.snippet_provider.SnippetProvider.__getitem__')
-    def test_compile(self, mock_provider, mock_push_indent, mock_pop_indent, mock_indent_new_lines):
+    def test_compile(self, mock_provider, mock_indent_new_lines):
         with self.assertRaises(NotImplementedError):
             self.compiler_instance.compile(st.Snippet())
 
@@ -32,7 +30,7 @@ class TestCompiler(TestCase):
         }
 
         mock_provider.side_effect = lambda x: x if x not in data else data[x]
-        mock_indent_new_lines.side_effect = lambda x: x
+        mock_indent_new_lines.side_effect = lambda x, _: x
 
         self.assertEqual(
             self.compiler_instance.compile(st.CompositeSnippet(
@@ -61,7 +59,7 @@ class TestCompiler(TestCase):
             'goo asd'
         )
 
-        with patch('logging.warning', MagicMock()) as m:
+        with patch('homotopy.compiler.ContextManager.add_variable') as mock_add_variable:
             self.assertEqual(
                 self.compiler_instance.compile(st.CompositeSnippet(
                     st.CompositeSnippet(st.SimpleSnippet('for'), '#', st.SimpleSnippet('i')),
@@ -71,9 +69,12 @@ class TestCompiler(TestCase):
                 'for i in !!!:\n\tpass'
             )
 
-            m.assert_called_once_with("No match found. Ignoring right side of the snippet.")
+            mock_add_variable.assert_has_calls([
+                call('###', 'i'),
+                call('%%%', 'data')
+            ])
 
-        with patch('logging.warning', MagicMock()) as m:
+        with patch('homotopy.compiler.ContextManager.add_variable') as mock_add_variable:
             self.assertEqual(
                 self.compiler_instance.compile(st.CompositeSnippet(
                     st.CompositeSnippet(
@@ -94,7 +95,12 @@ class TestCompiler(TestCase):
                 'doo def foo(a):\n\tpass'
             )
 
-            m.assert_called_once_with("No match found. Ignoring right side of the snippet.")
+            mock_add_variable.assert_has_calls([
+                call('!!!', 'foo'),
+                call('###', 'a'),
+                call('$$$', 'def foo(a):\n\tpass'),
+                call('###', 'b'),
+            ])
 
         self.assertEqual(
             self.compiler_instance.compile(st.CompositeSnippet(
@@ -131,6 +137,14 @@ class TestCompiler(TestCase):
 
         self.assertEqual(
             self.compiler_instance.compile(st.CompositeSnippet(
+                st.SimpleSnippet("goo"),
+                '#',
+                st.SimpleSnippet('goo'))),
+            'goo goo'
+        )
+
+        self.assertEqual(
+            self.compiler_instance.compile(st.CompositeSnippet(
                 st.CompositeSnippet(
                     st.SimpleSnippet('outer'),
                     '#',
@@ -145,21 +159,22 @@ class TestCompiler(TestCase):
             'param: test, inside: test in: test in: >>>'
         )
 
-    @patch('homotopy.indent_manager.IndentManager.indent_new_lines')
-    @patch('homotopy.indent_manager.IndentManager.pop_indent')
-    @patch('homotopy.indent_manager.IndentManager.push_indent')
+    @patch('homotopy.util.IndentManager.indent_new_lines')
     @patch('homotopy.snippet_provider.SnippetProvider.__getitem__')
-    def test_indentation(self, mock_provider, mock_push_indent, mock_pop_indent, mock_indent_new_lines):
+    def test_indentation(self, mock_provider, mock_indent_new_lines):
         with self.assertRaises(NotImplementedError):
             self.compiler_instance.compile(st.Snippet())
 
         data = {
             "for": "for item in collection:\n\t  \t {{helper}}",
-            "helper": ">>>"
+            "helper": ">>>",
+            "if": "if(true){\n{{inside_block}}\n}",
+            "inside_block": "\t>>>{{opt_inside_block}}",
+            "opt_inside_block": "\n\t>>>{{opt_inside_block}}"
         }
 
         mock_provider.side_effect = lambda x: x if x not in data else data[x]
-        mock_indent_new_lines.side_effect = lambda x: x
+        mock_indent_new_lines.side_effect = lambda x, _: x
 
         self.assertEqual(
             self.compiler_instance.compile(st.CompositeSnippet(
@@ -170,9 +185,7 @@ class TestCompiler(TestCase):
             'for item in collection:\n\t  \t pass'
         )
 
-        mock_push_indent.assert_called_once_with('\t  \t ')
-        mock_indent_new_lines.assert_called_once_with('pass')
-        mock_pop_indent.assert_called_once_with()
+        mock_indent_new_lines.assert_called_once_with('pass', '\t  \t ')
 
 
 class TestContextManager(TestCase):

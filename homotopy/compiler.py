@@ -1,8 +1,8 @@
+import re
+
 from homotopy.syntax_tree import SnippetVisitor
 from homotopy.parser import Parser
-
-import re
-import logging
+from homotopy.util import ContextManager
 
 
 class Compiler(SnippetVisitor):
@@ -14,6 +14,7 @@ class Compiler(SnippetVisitor):
         self.context_manager.new_scope()
         self.snippet_provider = snippet_provider
         self.indent_manager = indent_manager
+        self.inside_parameter = False
 
     def visit_composite_snippet(self, composite_snippet):
         """
@@ -28,29 +29,9 @@ class Compiler(SnippetVisitor):
 
         if operation_text in left_side:
             return self.substitute(left_side, composite_snippet.operation, composite_snippet.right, operation_text)
-        else:
-            expanded_left_side = left_side
-            match_found = False
 
-            def expansion_function(match_object):
-                nonlocal match_found
-
-                if not match_found and operation_text in self.snippet_provider[match_object.group(1)]:
-                    match_found = True
-                    return self.snippet_provider[match_object.group(1)]
-
-                return match_object.group(0)
-
-            expanded_left_side = re.sub(
-                r'{{(.*?)}}',
-                expansion_function,
-                expanded_left_side)
-
-            if operation_text in expanded_left_side:
-                return self.substitute(expanded_left_side, composite_snippet.operation, composite_snippet.right, operation_text)
-
-        logging.warning("No match found. Ignoring right side of the snippet.")
-        return left_side
+        expanded_left_side = self.expand_snippet(left_side, operation_text)
+        return self.substitute(expanded_left_side, composite_snippet.operation, composite_snippet.right, operation_text)
 
     def visit_simple_snippet(self, simple_snippet):
         """
@@ -59,7 +40,33 @@ class Compiler(SnippetVisitor):
         :param simple_snippet: Simple snippet
         :return: Text of compile snippet
         """
-        return self.expand_variable_operators(self.snippet_provider[simple_snippet.value])
+        snippet_text = simple_snippet.value if self.inside_parameter else self.snippet_provider[simple_snippet.value]
+
+        return self.expand_variable_operators(snippet_text)
+
+    def expand_snippet(self, snippet_text, operation_text):
+        """
+        Expend snippet to uncover possible operator definition.
+
+        :param snippet_text: Snippet text
+        :param operation_text: Operation text
+        :return: Expanded snippet
+        """
+        match_found = False
+
+        def expansion_function(match_object):
+            nonlocal match_found
+
+            if not match_found and operation_text in self.snippet_provider[match_object.group(1)]:
+                match_found = True
+                return self.snippet_provider[match_object.group(1)]
+
+            return match_object.group(0)
+
+        return re.sub(
+            r'{{(.*?)}}',
+            expansion_function,
+            snippet_text)
 
     def expand_variable_operators(self, text):
         """
@@ -80,17 +87,20 @@ class Compiler(SnippetVisitor):
             before_operation_text = left[0:left.find(operation_text)]
             m = re.search(r"\n([\t ]*)$", before_operation_text)
             indent = m.group(1) if m else ""
-            self.indent_manager.push_indent(indent)
-
-        right = self.snippet_provider[self.compile(right_tree)]
-
-        if operation != Parser.in_operator:
-            self.context_manager.add_variable(operation_text, right)
         else:
+            old_inside_parameter = self.inside_parameter
+            self.inside_parameter = True
+
+        right = self.compile(right_tree)
+
+        if operation == Parser.in_operator:
             self.context_manager.remove_scope()
 
-            right = self.indent_manager.indent_new_lines(right)
-            self.indent_manager.pop_indent()
+            right = self.indent_manager.indent_new_lines(right, indent)
+        else:
+            self.context_manager.add_variable(operation_text, right)
+
+            self.inside_parameter = old_inside_parameter
 
         return left.replace(operation_text, right)
 
@@ -104,55 +114,3 @@ class Compiler(SnippetVisitor):
         compiled_snippet = self.visit(snippet)
 
         return re.sub(r'({{.*?}})', "", compiled_snippet)
-
-
-class ContextManager:
-    """
-    Class for managing substituted parameters to be used again.
-    """
-    def __init__(self):
-        """
-        Initialize stack.
-        """
-        self.stack = []
-
-    def new_scope(self):
-        """
-        Add new scope.
-        """
-        self.stack.append({})
-
-    def remove_scope(self):
-        """
-        Remove last scope.
-        """
-        if self.stack:
-            self.stack.pop()
-
-    def add_variable(self, name, value):
-        """
-        Add variable to current scope.
-
-        :param name: Variable name
-        :param value: Variable value
-        """
-        if self.stack:
-            self.stack[-1][name] = value
-        else:
-            raise Exception("No scope to add variable to")
-
-    def __getitem__(self, item):
-        """
-        Get variable from last scope.
-
-        :param item: Variable name
-        :return: Variable value if it exists. Empty string otherwise
-        """
-        i = 2
-        while i <= len(self.stack):
-            if item in self.stack[-i]:
-                return self.stack[-i][item]
-
-            i += 1
-
-        return ""

@@ -9,7 +9,7 @@ import homotopy.snippet_provider as sp
 
 class TestSnippetProvider(TestCase):
     def test_getitem(self):
-        provider = sp.SnippetProvider()
+        provider = sp.SnippetProvider("", [])
 
         provider.data = {
             "for": "for # in !:\n\tpass"
@@ -22,7 +22,7 @@ class TestSnippetProvider(TestCase):
     def test_initialization(self, listdir):
         listdir.return_value = ['test.json', 'test.txt']
 
-        self.assertDictEqual(sp.SnippetProvider().data, {}, "Snippet provider should be empty.")
+        self.assertDictEqual(sp.SnippetProvider("", []).data, {}, "Snippet provider should be empty.")
 
         with patch('builtins.open',
                    mock_open(read_data='[{"name": "for","language": "C++","snippet": "if(#){$}"}]')) as m:

@@ -1,6 +1,6 @@
 import os
 
-from homotopy import preprocessor, parser, compiler, snippet_provider, indent_manager
+from homotopy import preprocessor, parser, compiler, snippet_provider, util
 
 
 class Homotopy:
@@ -72,7 +72,7 @@ class Homotopy:
         snippet_provider_instance = snippet_provider.SnippetProvider(
             self.language, self.user_path + [Homotopy.stdlib_path]
         )
-        indent_manager_instance = indent_manager.IndentManager()
+        indent_manager_instance = util.IndentManager()
 
         snippet_text = indent_manager_instance.take_base_indent(snippet_text)
 
@@ -88,4 +88,3 @@ class Homotopy:
         compiled_snippet = compiler_instance.compile(syntax_tree)
 
         return indent_manager_instance.indent_base(compiled_snippet)
-

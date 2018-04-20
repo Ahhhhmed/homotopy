@@ -13,7 +13,7 @@ class SnippetProvider:
     name_key = "name"
     snippet_key = "snippet"
 
-    def __init__(self, language="", path=[]):
+    def __init__(self, language, path):
         """
         Initialize snippet provider instance.
 
@@ -57,4 +57,3 @@ class SnippetProvider:
         if item in self.data:
             return self.data[item]
         return item
-

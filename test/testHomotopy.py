@@ -1,6 +1,7 @@
-from homotopy.homotopy import Homotopy
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
+
+from homotopy.homotopy import Homotopy
 
 
 class TestHomotopy(TestCase):
@@ -54,7 +55,7 @@ class TestHomotopy(TestCase):
     @patch('homotopy.compiler.Compiler.__init__')
     @patch('homotopy.compiler.Compiler.compile')
     @patch('homotopy.snippet_provider.SnippetProvider')
-    @patch('homotopy.indent_manager.IndentManager')
+    @patch('homotopy.util.IndentManager')
     def test_compile(
             self,
             mock_indent_manager,

@@ -1,3 +1,5 @@
+
+
 class Snippet:
     """
     Base class for snippet syntax tree.
@@ -48,7 +50,7 @@ class SimpleSnippet(Snippet):
     """
     def __init__(self, value):
         """
-        Initialize SnipleSnippet instance.
+        Initialize SimpleSnippet instance.
 
         :param value: Value of the snippet
         """

@@ -6,6 +6,9 @@ from homotopy.snippet_provider import SnippetProvider
 
 
 class TestPreprocessor(TestCase):
+    def setUp(self):
+        self.preprocessor_instance = Preprocessor(SnippetProvider("", []))
+
     @patch('homotopy.snippet_provider.SnippetProvider.__getitem__')
     def test_expand_decorators(self, mock_provider):
         data = {
@@ -16,14 +19,14 @@ class TestPreprocessor(TestCase):
 
         mock_provider.side_effect = lambda x: x if x not in data else data[x]
 
-        self.assertEqual("noExpansion", Preprocessor(SnippetProvider()).expand_decorators("noExpansion"))
+        self.assertEqual("noExpansion", self.preprocessor_instance.expand_decorators("noExpansion"))
 
-        self.assertEqual("test_expansion", Preprocessor(SnippetProvider()).expand_decorators("test_[[def]]"))
+        self.assertEqual("test_expansion", self.preprocessor_instance.expand_decorators("test_[[def]]"))
 
         self.assertEqual("multiple_expansion1_expansions_expansion2",
-                         Preprocessor(SnippetProvider()).expand_decorators("multiple_[[def1]]_expansions_[[def2]]"))
+                         self.preprocessor_instance.expand_decorators("multiple_[[def1]]_expansions_[[def2]]"))
 
     def test_put_cursor_marker(self):
         cursor_marker = "[{cursor_marker}]"
 
-        self.assertEqual("snippet&" + cursor_marker, Preprocessor(SnippetProvider()).put_cursor_marker("snippet"))
+        self.assertEqual("snippet&" + cursor_marker, self.preprocessor_instance.put_cursor_marker("snippet"))
