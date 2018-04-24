@@ -40,13 +40,13 @@ The code is separated in several components:
 * `Syntax tree`_
 * `Snippet provider`_
 * `Compiler`_
-* `Utilities`_
 * `Application frontend`_
 
 Preprocessor
 ^^^^^^^^^^^^
 
 Before parsing and creating syntax tree some prepossessing is done to enable some feathers.
+They are described in following sections.
 
 Decorators
 """"""""""
@@ -83,6 +83,23 @@ writing that text and expanding the snippet afterwords.*
 
 To enable this preprocessor appends :code:`&[{cursor_marker}]` to the snippet text
 so a plugin can put cursor at the marker location.
+
+Usage
+"""""
+
+.. autoclass:: homotopy.preprocessor.Preprocessor
+    :members: expand_decorators, put_cursor_marker
+    :member-order: bysource
+
+.. code-block:: python
+
+    from homotopy.preprocessor import Preprocessor
+    from homotopy.snippet_provider import SnippetProvider
+
+    preprocessor = Preprocessor(SnippetProvider('python', ['folder1', 'folder2']))
+    snippet = "for"
+    expanded_snippet = preprocessor.expand_decorators(snippet)
+    expanded_snippet_with_cursor = preprocessor.put_cursor_marker(expanded_snippet)
 
 Parser
 ^^^^^^
@@ -170,8 +187,22 @@ Escape sequence
 """""""""""""""
 
 Homotopy uses escape sequence to enable operator usage in snippets.
-Character after :code:`\` will always be a part of snippet and not recognised as an operator.
+Character after :code:`'\'` will always be a part of snippet and not recognised as an operator.
 
+Usage
+"""""
+
+.. autoclass:: homotopy.parser.Parser
+    :members: parse
+    :member-order: bysource
+
+.. code-block:: python
+
+    from homotopy.parser import Parser
+
+    parser = Parser()
+    snippet = "for"
+    syntax_tree = parser.parse(snippet)
 
 Syntax tree
 ^^^^^^^^^^^
@@ -180,6 +211,16 @@ Tree structure of a snippet.
 
 .. automodule:: homotopy.syntax_tree
     :members:
+
+Usage
+"""""
+
+.. code-block:: python
+
+    from homotopy.syntax_tree import SimpleSnippet, CompositeSnippet
+
+    simple_snippet = SimpleSnippet("for")
+    composite_snippet = CompositeSnippet(simple_snippet, '>', SimpleSnippet('code'))
 
 Snippet provider
 ^^^^^^^^^^^^^^^^
@@ -201,27 +242,24 @@ Snippets definition are writen in json files as shown is the following example.
 Note that language can be a string or a list of strings. Use :code:`all` for snippets that should always be included.
 Language can be excluded by prefixing it with :code:`~` (for example :code:`~c++`).
 
-Implementation
-""""""""""""""
-
 Snippet provider reads all the files containing snippets.
 It searches all json files contained in the given list of folders files.
 The list of folders is specified in the :code:`path` variable (similar to :code:`os.path`).
+
+Usage
+"""""
 
 .. autoclass:: homotopy.snippet_provider.SnippetProvider
     :members: __getitem__, __init__
     :member-order: bysource
 
-Usage
-"""""
-
-Using this class should be straightforward. Look.
-
 .. code-block:: python
+
+    from homotopy.snippet_provider import SnippetProvider
 
     provider = SnippetProvider("C++", ["folder1", "folder2"])
     snippet = "for"
-    snippetExpansion = provider[snippet] # snippetExpansion == "for(###){$$$}" if used with json from above
+    snippetExpansion = provider[snippet]
 
 Compiler
 ^^^^^^^^
@@ -298,10 +336,30 @@ Accessing outer parameters can be done in the following way:
 The snippet above would create a public empty constructor. :code:`{{?###}}` binds to the same value as :code:`{{?###}}`
 from the snippet above the current one.
 
-Utilities
-^^^^^^^^^
+Usage
+"""""
 
-Utility functionality to help the development of editor add-ons.
+.. autoclass:: homotopy.compiler.Compiler
+    :members: compile
+    :member-order: bysource
+
+.. code-block:: python
+
+    from homotopy.compiler import Compiler
+    from homotopy.parser import Parser
+    from homotopy.snippet_provider import SnippetProvider
+    from homotopy.util import IndentManager
+
+    snippet_provider = SnippetProvider('python', ['folder1', 'folder2'])
+    indent_manager = IndentManager(snippet_provider)
+
+    compiler = Compiler(snippet_provider, indent_manager)
+    parser = Parser()
+
+    snippet = "for>code"
+    syntax_tree = parser.parse(snippet)
+
+    compiled_snippet = compiler.compile(syntax_tree)
 
 Application frontend
 ^^^^^^^^^^^^^^^^^^^^

@@ -11,6 +11,5 @@ Homotopy documentation
    :caption: Contents:
 
    getting_started
+   snippet_library
    contributing
-
-Under development.

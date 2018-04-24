@@ -17,6 +17,7 @@ class TestStdlib(TestCase):
 for(int i=0; i<n; i++){
 
 }
+
 [{cursor_marker}]
 """)
 
@@ -59,11 +60,12 @@ for(int i=n; i>=0; i--){
 for(int i=n; i>=0; i--){
 \tprintf("hello");
 }
+
 [{cursor_marker}]
 """)
 
 
-        self.singleSnippet('forin$item%collection>printf("hello");', """
+        self.singleSnippet('forin#auto\&\&$item%collection>printf("hello");', """
 for(auto&& item: collection){
 \tprintf("hello");
 \t[{cursor_marker}]
@@ -83,6 +85,16 @@ switch(i){
 }
 """)
 
+        self.singleSnippet('switch$i>case$1$2>printf("one or two");', """
+switch(i){
+\tcase 1:
+\tcase 2:
+\t\tprintf("one or two");
+\t\t[{cursor_marker}]
+\t\tbreak;
+}
+""")
+
         self.singleSnippet('switch$i>case$1>asd<case$2>dsa<<', """
 switch(i){
 \tcase 1:
@@ -93,6 +105,7 @@ switch(i){
 \t\tdsa
 \t\tbreak;
 }
+
 [{cursor_marker}]
 """)
 
@@ -266,6 +279,7 @@ enum deca { pera, mika = 2, zika = 3, [{cursor_marker}] };
 
         self.singleSnippet('enum1!deca>pera&mika = 2&zika = 3<', """
 enum deca { pera, mika = 2, zika = 3 };
+
 [{cursor_marker}]
 """)
 
@@ -275,6 +289,7 @@ enum deca {
 \tmika = 2,
 \tzika = 3
 };
+
 [{cursor_marker}]
 """)
 
@@ -291,6 +306,7 @@ class A {
 A::A(int i){
 
 }
+
 [{cursor_marker}]
 """)
 
@@ -298,6 +314,7 @@ A::A(int i){
 void A::pera(int i){
 
 }
+
 [{cursor_marker}]
 """)
 
@@ -344,4 +361,16 @@ public:
 
 \t[{cursor_marker}]
 };
+""")
+
+        self.singleSnippet('stdinc$stdio.h&[[main]]>printf("Hello, world\!");&return 0;', """
+#include <stdio.h>
+
+int main(int argc, char* argv[]){
+\tprintf("Hello, world!");
+
+\treturn 0;
+
+\t[{cursor_marker}]
+}
 """)

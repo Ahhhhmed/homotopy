@@ -5,6 +5,6 @@
   {"name": "opt_wblock","language": "all","snippet": "\n\n>>>{{opt_wblock}}"},
   {"name": "inside_block","language": "C++","snippet": "\t>>>{{opt_inside_block}}"},
   {"name": "opt_inside_block","language": "C++","snippet": "\n\t>>>{{opt_inside_block}}"},
-  {"name": "winside_block","language": "C++","snippet": "\t>>>{{opt_winside_block}}"},
-  {"name": "opt_winside_block","language": "C++","snippet": "\n\n\t>>>{{opt_winside_block}}"}
+  {"name": "inside_wblock","language": "C++","snippet": "\t>>>{{opt_inside_wblock}}"},
+  {"name": "opt_inside_wblock","language": "C++","snippet": "\n\n\t>>>{{opt_inside_wblock}}"}
 ]

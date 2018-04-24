@@ -2,41 +2,42 @@
   {"name": "for","language": "C++","snippet": "for(### $$$=%%%; $$$<{{for_end}}; $$$++){\n{{inside_block}}\n}"},
   {"name": "forr","language": "C++","snippet": "for(### $$$=%%%; $$$>={{for_end}}; $$$--){\n{{inside_block}}\n}"},
   {"name": "for_end","language": "C++","snippet": "%%%"},
-  {"name": "forin","language": "C++","snippet": "for(auto&& $$$: %%%){\n{{inside_block}}\n}"},
+  {"name": "forin","language": "C++","snippet": "for(### $$$: %%%){\n{{inside_block}}\n}"},
 
   {"name": "if","language": "C++","snippet": "if($$$){\n{{inside_block}}\n}"},
   {"name": "while","language": "C++","snippet": "while($$$){\n{{inside_block}}\n}"},
 
-  {"name": "switch","language": "C++","snippet": "switch($$$){\n{{winside_block}}\n}"},
-  {"name": "case","language": "C++","snippet": "case $$$:\n{{inside_block}}\n\tbreak;{{opt_case}}"},
-  {"name": "opt_case","language": "C++","snippet": "\ncase $$$:\n{{inside_block}}\n\tbreak;{{opt_case}}"},
+  {"name": "switch","language": "C++","snippet": "switch($$$){\n{{inside_wblock}}\n}"},
+  {"name": "case","language": "C++","snippet": "case $$${{opt_case}}:\n{{inside_block}}\n\tbreak;"},
+  {"name": "opt_case","language": "C++","snippet": ":\ncase $$${{opt_case}}"},
+  {"name": "default","language": "C++","snippet": "default:\n{{inside_block}}\n\tbreak;"},
 
-  {"name": "func","language": "C++","snippet": "### @@@({{params}}){\n{{winside_block}}\n}"},
+  {"name": "func","language": "C++","snippet": "### @@@({{params}}){\n{{inside_wblock}}\n}"},
   {"name": "params","language": "C++","snippet": "### $$${{opt_params}}"},
   {"name": "opt_params","language": "C++","snippet": ", ### $$${{opt_params}}"},
 
-  {"name": "struct","language": "C++","snippet": "struct !!!{{extend}} {\n{{winside_block}}\n};"},
+  {"name": "struct","language": "C++","snippet": "struct !!!{{extend}} {\n{{inside_wblock}}\n};"},
   {"name": "extend","language": "C++","snippet": ": %%% :::{{opt_extend}}"},
   {"name": "opt_extend","language": "C++","snippet": ", %%% :::{{opt_extend}}"},
 
   {"name": "class","language": "C++","snippet": "class !!!{{extend}} {\n{{block}}\n};"},
-  {"name": "public","language": "C++","snippet": "public:\n{{winside_block}}"},
-  {"name": "private","language": "C++","snippet": "private:\n{{winside_block}}"},
-  {"name": "protected","language": "C++","snippet": "protected:\n{{winside_block}}"},
+  {"name": "public","language": "C++","snippet": "public:\n{{inside_wblock}}"},
+  {"name": "private","language": "C++","snippet": "private:\n{{inside_wblock}}"},
+  {"name": "protected","language": "C++","snippet": "protected:\n{{inside_wblock}}"},
 
-  {"name": "method","language": "C++","snippet": "### @@@({{params}}){\n{{winside_block}}\n}"},
+  {"name": "method","language": "C++","snippet": "### @@@({{params}}){\n{{inside_wblock}}\n}"},
   {"name": "nimethod","language": "C++","snippet": "### @@@({{params}});"},
   {"name": "amethod","language": "C++","snippet": "### @@@({{params}}) = 0;"},
   {"name": "dmethod","language": "C++","snippet": "### @@@({{params}}) = delete;"},
-  {"name": "methodi1","language": "C++","snippet": "### !!!::@@@({{params}}){\n{{winside_block}}\n}"},
-  {"name": "methodi","language": "C++","snippet": "### {{?!!!}}::@@@({{params}}){\n{{winside_block}}\n}"},
+  {"name": "methodi1","language": "C++","snippet": "### !!!::@@@({{params}}){\n{{inside_wblock}}\n}"},
+  {"name": "methodi","language": "C++","snippet": "### {{?!!!}}::@@@({{params}}){\n{{inside_wblock}}\n}"},
 
-  {"name": "constr","language": "C++","snippet": "{{?!!!}}({{params}}){\n{{winside_block}}\n}"},
+  {"name": "constr","language": "C++","snippet": "{{?!!!}}({{params}}){\n{{inside_wblock}}\n}"},
   {"name": "niconstr","language": "C++","snippet": "{{?!!!}}({{params}});"},
   {"name": "econstr","language": "C++","snippet": "{{?!!!}}({{params}}){}"},
   {"name": "dconstr","language": "C++","snippet": "{{?!!!}}({{params}}) = delete;"},
-  {"name": "constri1","language": "C++","snippet": "!!!::!!!({{params}}){\n{{winside_block}}\n}"},
-  {"name": "constri","language": "C++","snippet": "{{?!!!}}::{{?!!!}}({{params}}){\n{{winside_block}}\n}"},
+  {"name": "constri1","language": "C++","snippet": "!!!::!!!({{params}}){\n{{inside_wblock}}\n}"},
+  {"name": "constri","language": "C++","snippet": "{{?!!!}}::{{?!!!}}({{params}}){\n{{inside_wblock}}\n}"},
 
   {"name": "enum","language": "C++","snippet": "enum !!!{{enum_type}} {\n{{enum_body}}\n};"},
   {"name": "enum_body","language": "C++","snippet": "\t>>>{{opt_enum_body}}"},
@@ -54,5 +55,6 @@
 
   {"name": "singleton","language": "C++","snippet": "public>method#{{?\\!\\!\\!}}\\&@getInstance>static {{?\\!\\!\\!}} instance;&return instance<<private>block>econstr&niconstr#{{?\\!\\!\\!}} const\\&$origin&nimethod#void@operator=#{{?\\!\\!\\!}} const\\&$origin<"},
   {"name": "compositeclass","language": "C++","snippet": "public>method#void@add#{{?\\:\\:\\:}}$*item>children.puch_back(item);<<private>std\\:\\:vector\\<{{?\\:\\:\\:}}*\\> children;<"},
-  {"name": "compositemethod","language": "C++","snippet": ">for#int$i%0%children.size()>children[i]-\\>{{?\\@\\@\\@}}();<<"}
+  {"name": "compositemethod","language": "C++","snippet": ">for#int$i%0%children.size()>children[i]-\\>{{?\\@\\@\\@}}();<<"},
+  {"name": "main","language": "C++","snippet": "func#int@main#int$argc#char*$argv[]"}
 ]

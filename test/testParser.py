@@ -71,7 +71,7 @@ class TestParser(TestCase):
         self.assertEqual(parser.parse('for&for'),
                          CompositeSnippet(
                              CompositeSnippet(
-                                 SimpleSnippet('block'),
+                                 SimpleSnippet('wblock'),
                                  '>',
                                  SimpleSnippet('for')),
                              '>',
@@ -81,7 +81,7 @@ class TestParser(TestCase):
         self.assertEqual(parser.parse('for>if<if'),
                          CompositeSnippet(
                              CompositeSnippet(
-                                 SimpleSnippet('block'),
+                                 SimpleSnippet('wblock'),
                                  '>',
                                  CompositeSnippet(
                                      SimpleSnippet('for'),
