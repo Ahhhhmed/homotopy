@@ -1,0 +1,26 @@
+[
+  {"name": "forin","language": "Python","snippet": "for $$$ in %%%:\n{{inside_block}}\n"},
+  {"name": "for","language": "Python","snippet": "for $$$ in %%%:\n{{inside_block}}\n"},
+
+  {"name": "if","language": "Python","snippet": "if $$$:\n{{inside_block}}\n"},
+  {"name": "elif","language": "Python","snippet": "elif $$$:\n{{inside_block}}\n"},
+  {"name": "else","language": "Python","snippet": "else:\n{{inside_block}}\n"},
+  {"name": "while","language": "Python","snippet": "while $$$:\n{{inside_block}}\n"},
+
+  {"name": "class","language": "Python","snippet": "class !!!{{extend}}:\n{{inside_wblock}}\n"},
+  {"name": "extend","language": "Python","snippet": "(:::{{opt_extend}})"},
+  {"name": "opt_extend","language": "Python","snippet": ", :::{{opt_extend}}"},
+
+  {"name": "method","language": "Python","snippet": "def @@@(self{{method_params}}):\n{{inside_block}}\n"},
+  {"name": "smethod","language": "Python","snippet": "@staticmethod\ndef @@@({{params}}):\n{{inside_block}}\n"},
+  {"name": "cmethod","language": "Python","snippet": "@classmethod\ndef @@@(cls{{method_params}}):\n{{inside_block}}\n"},
+  {"name": "method_params","language": "Python","snippet": ", $$${{opt_params}}"},
+  {"name": "params","language": "Python","snippet": "$$${{opt_params}}"},
+  {"name": "opt_params","language": "Python","snippet": ", $$${{opt_params}}"},
+
+  {"name": "constr","language": "Python","snippet": "def __init__(self{{method_params}}):\n{{inside_block}}\n"},
+
+  {"name": "func","language": "Python","snippet": "def @@@({{params}}):\n{{inside_block}}\n"},
+
+  {"name": "main","language": "Python","snippet": "if$__name__ == \"__main__\""}
+]

@@ -64,7 +64,7 @@ class Compiler(SnippetVisitor):
             return match_object.group(0)
 
         return re.sub(
-            r'{{(.*?)}}',
+            r'{{([^{]*?)}}',
             expansion_function,
             snippet_text)
 
@@ -113,4 +113,4 @@ class Compiler(SnippetVisitor):
         """
         compiled_snippet = self.visit(snippet)
 
-        return re.sub(r'({{.*?}})', "", compiled_snippet)
+        return re.sub(r'({{[^{]*?}})', "", compiled_snippet)

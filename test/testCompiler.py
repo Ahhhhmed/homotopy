@@ -23,6 +23,7 @@ class TestCompiler(TestCase):
             "params": "###{{opt_params}}",
             "opt_params": ", ###{{opt_params}}",
             "multiple": "{{goo}}{{doo}}",
+            "regextest": "{{{goo}}{{{doo}}}",
             "goo": "goo ###",
             "doo": "doo $$$",
             "outer": "param: ###, inside: >>>",
@@ -48,6 +49,15 @@ class TestCompiler(TestCase):
                 st.SimpleSnippet('asd')
             )),
             'doo asd'
+        )
+
+        self.assertEqual(
+            self.compiler_instance.compile(st.CompositeSnippet(
+                st.SimpleSnippet('regextest'),
+                '#',
+                st.SimpleSnippet('asd')
+            )),
+            '{goo asd{}'
         )
 
         self.assertEqual(

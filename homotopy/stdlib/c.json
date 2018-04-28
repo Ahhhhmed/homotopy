@@ -1,0 +1,4 @@
+[
+  {"name": "struct","language": "C","snippet": "struct !!! {\n{{inside_block}}\n};"},
+  {"name": "tdstruct","language": "C","snippet": "typedef struct{\n{{inside_block}}\n} !!!;"}
+]

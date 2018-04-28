@@ -3,8 +3,8 @@
   {"name": "opt_block","language": "all","snippet": "\n>>>{{opt_block}}"},
   {"name": "wblock","language": "all","snippet": ">>>{{opt_wblock}}"},
   {"name": "opt_wblock","language": "all","snippet": "\n\n>>>{{opt_wblock}}"},
-  {"name": "inside_block","language": "C++","snippet": "\t>>>{{opt_inside_block}}"},
-  {"name": "opt_inside_block","language": "C++","snippet": "\n\t>>>{{opt_inside_block}}"},
-  {"name": "inside_wblock","language": "C++","snippet": "\t>>>{{opt_inside_wblock}}"},
-  {"name": "opt_inside_wblock","language": "C++","snippet": "\n\n\t>>>{{opt_inside_wblock}}"}
+  {"name": "inside_block","language": "all","snippet": "\t>>>{{opt_inside_block}}"},
+  {"name": "opt_inside_block","language": "all","snippet": "\n\t>>>{{opt_inside_block}}"},
+  {"name": "inside_wblock","language": "all","snippet": "\t>>>{{opt_inside_wblock}}"},
+  {"name": "opt_inside_wblock","language": "all","snippet": "\n\n\t>>>{{opt_inside_wblock}}"}
 ]

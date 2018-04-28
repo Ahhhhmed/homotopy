@@ -1,0 +1,18 @@
+[
+  {"name": "for","language": ["C++", "C", "Java"],"snippet": "for(### $$$=%%%; $$$<{{for_end}}; $$$++){\n{{inside_block}}\n}"},
+  {"name": "forr","language": ["C++", "C", "Java"],"snippet": "for(### $$$=%%%; $$$>={{for_end}}; $$$--){\n{{inside_block}}\n}"},
+  {"name": "for_end","language": ["C++", "C", "Java"],"snippet": "%%%"},
+
+  {"name": "if","language": ["C++", "C", "Java"],"snippet": "if($$$){\n{{inside_block}}\n}"},
+  {"name": "else","language": ["C++", "C", "Java"],"snippet": "else {\n{{inside_block}}\n}"},
+  {"name": "while","language": ["C++", "C", "Java"],"snippet": "while($$$){\n{{inside_block}}\n}"},
+
+  {"name": "switch","language": ["C++", "C", "Java"],"snippet": "switch($$$){\n{{inside_block}}\n}"},
+  {"name": "case","language": ["C++", "C", "Java"],"snippet": "case $$${{opt_case}}:\n{{inside_block}}\n\tbreak;"},
+  {"name": "opt_case","language": ["C++", "C", "Java"],"snippet": ":\ncase $$${{opt_case}}"},
+  {"name": "default","language": ["C++", "C", "Java"],"snippet": "default:\n{{inside_block}}\n\tbreak;"},
+
+  {"name": "func","language": ["C"],"snippet": "### @@@({{params}}){\n{{inside_block}}\n}"},
+  {"name": "params","language": ["C++", "C", "Java"],"snippet": "### $$${{opt_params}}"},
+  {"name": "opt_params","language": ["C++", "C", "Java"],"snippet": ", ### $$${{opt_params}}"}
+]

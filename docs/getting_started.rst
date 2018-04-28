@@ -13,7 +13,7 @@ Hello world
 
 .. code-block:: text
 
-    stdinc$stdio.h&[[main]]>printf("Hello, world\!");&return 0;
+    stdinc$stdio.h& &[[main]]>printf("Hello, world\!");&return 0;
 
 .. code-block:: C
 
@@ -212,12 +212,13 @@ This is a fairly large example but includes most of the feathers of Homotopy.
 
     stdinc$stdio.h&[[main]]>printf("Hello, world\!");&return 0;
 
-At the top level there are two snippets:
+At the top level there are three snippets:
 
 1. :code:`stdinc$stdio.h` and
-2. :code:`[[main]]>printf("Hello, world\!");&return 0;`
+2. Space for an empty line.
+3. :code:`[[main]]>printf("Hello, world\!");&return 0;`
 
-They are implicitly inside an implicit :code:`block` snippet. Block snippet just separate snippets by an empty line.
+They are implicitly inside an implicit :code:`block` snippet. Block snippet just separate snippets lines.
 
 Definitions used to compile this snippet:
 
@@ -236,7 +237,7 @@ Definitions used to compile this snippet:
 :code:`stdinc` has the definition :code:`#include <$$$>`
 and :code:`stdio.h` just gets replaced in to get :code:`#include <stdio.h>`
 
-Lets now go through the second snippet step by step:
+Lets now go through the third snippet step by step:
 
 1. :code:`[[main]]` gets expanded into :code:`func#int@main#int$argc#char*$argv[]`.
 2. :code:`func` get expanded into :code:`### @@@({{params}}){\n{{inside_wblock}}\n}`.

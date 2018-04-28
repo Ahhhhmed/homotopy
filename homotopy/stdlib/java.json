@@ -1,0 +1,41 @@
+[
+  {"name": "forin","language": "Java","snippet": "for(### $$$: %%%){\n{{inside_block}}\n}"},
+
+  {"name": "class","language": "Java","snippet": "class !!!{{template}}{{extend}}{{implements}} {\n{{inside_wblock}}\n}"},
+  {"name": "extend","language": "Java","snippet": " extends :::"},
+  {"name": "implements","language": "Java","snippet": " implements ~~~{{opt_implements}}"},
+  {"name": "opt_implements","language": "Java","snippet": ", ~~~{{opt_implements}}"},
+
+  {"name": "method","language": "Java","snippet": "public ### @@@{{template}}({{params}}){\n{{inside_block}}\n}"},
+  {"name": "method1","language": "Java","snippet": "public ### @@@{{template}}({{params}}){{{single_line_method}} }"},
+  {"name": "amethod","language": "Java","snippet": "public abstract ### @@@{{template}}({{params}});"},
+  {"name": "pmethod","language": "Java","snippet": "private ### @@@{{template}}({{params}}){\n{{inside_block}}\n}"},
+  {"name": "pmethod1","language": "Java","snippet": "private ### @@@{{template}}({{params}}){{{single_line_method}} }"},
+  {"name": "pamethod","language": "Java","snippet": "private abstract ### @@@{{template}}({{params}});"},
+  {"name": "promethod","language": "Java","snippet": "protected ### @@@{{template}}({{params}}){\n{{inside_block}}\n}"},
+  {"name": "promethod1","language": "Java","snippet": "protected ### @@@{{template}}({{params}}){{{single_line_method}} }"},
+  {"name": "proamethod","language": "Java","snippet": "protected ### abstract @@@{{template}}({{params}});"},
+  {"name": "single_line_method","language": "Java","snippet": " >>>{{single_line_method}}"},
+
+  {"name": "constr","language": "Java","snippet": "public {{?!!!}}({{params}}){\n{{inside_block}}\n}"},
+  {"name": "constr1","language": "Java","snippet": "public {{?!!!}}({{params}}){{{single_line_method}} }"},
+  {"name": "pconstr","language": "Java","snippet": "private {{?!!!}}({{params}}){\n{{inside_block}}\n}"},
+  {"name": "pconstr1","language": "Java","snippet": "private {{?!!!}}({{params}}){{{single_line_method}} }"},
+  {"name": "proconstr","language": "Java","snippet": "protected {{?!!!}}({{params}}){\n{{inside_block}}\n}"},
+  {"name": "proconstr1","language": "Java","snippet": "protected {{?!!!}}({{params}}){{{single_line_method}} }"},
+
+  {"name": "enum","language": "Java","snippet": "enum !!!{{enum_type}} {\n{{enum_body}}\n}"},
+  {"name": "enum_body","language": "Java","snippet": "\t>>>{{opt_enum_body}};"},
+  {"name": "opt_enum_body","language": "Java","snippet": ",\n\t>>>{{opt_enum_body}}"},
+  {"name": "enum1","language": "Java","snippet": "enum !!!{{enum1_type}} { {{enum1_body}} }"},
+  {"name": "enum1_body","language": "Java","snippet": ">>>{{opt_enum1_body}};"},
+  {"name": "opt_enum1_body","language": "Java","snippet": ", >>>{{opt_enum1_body}}"},
+
+  {"name": "template","language": "Java","snippet": "<^^^{{opt_template_params}}>"},
+  {"name": "opt_template_params","language": "Java","snippet": ", ^^^{{opt_template_params}}"},
+
+  {"name": "singleton","language": "Java","snippet": "block>private static {{?\\!\\!\\!}} instance = null;&peconstr<method#static {{?\\!\\!\\!}}@getInstance>if$instance == null>instance = new {{?\\!\\!\\!}}();<return instance;<"},
+  {"name": "compositeclass","language": "Java","snippet": "block>private List\\<{{?\\:\\:\\:}}\\> children = ArrayList\\<{{?\\:\\:\\:}}\\>();&method#void@add#{{?\\:\\:\\:}}$item>children.add(item);<<"},
+  {"name": "compositemethod","language": "Java","snippet": "for#int$i%0%children.size()>children[i].{{?\\@\\@\\@}}();<"},
+  {"name": "main","language": "Java","snippet": "method#static void@main#String[]$args"}
+]
