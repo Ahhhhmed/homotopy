@@ -26,6 +26,14 @@ Homotopy take care of parentheses, formatting, indent and all that boring stuff.
         printf("Hello, five times.");
    }
 
+-------
+Install
+-------
+
+.. code-block:: bash
+
+    pip install homotopy
+
 ---------------
 Getting started
 ---------------
