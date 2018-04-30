@@ -19,11 +19,11 @@ class TestMain(TestCase):
             mock_compile.assert_called_once_with("invalid_snippet")
 
         with patch("homotopy.Homotopy.compile", return_value="") as mock_compile:
-            with patch("homotopy.Homotopy.set_indent") as mock_set_indent:
+            with patch("homotopy.Homotopy.enable_soft_tab") as mock_enable_soft_tab:
                 with patch("sys.argv", ["testing", "-t", "3", "c++", "invalid_snippet"]):
                     homotopy.__main__.main()
 
-                mock_set_indent.assert_called_once_with("   ")
+                mock_enable_soft_tab.assert_called_once_with(3)
             mock_compile.assert_called_once_with("invalid_snippet")
 
         with patch("homotopy.Homotopy.compile", return_value="") as mock_compile:

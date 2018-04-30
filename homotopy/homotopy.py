@@ -16,7 +16,8 @@ class Homotopy:
         :param language: Language
         """
         self.user_path = []
-        self.indent = '\t'
+        self.soft_tab = False
+        self.soft_tab_size = 4
         self.put_cursor_marker = False
         self.language = language
 
@@ -34,13 +35,20 @@ class Homotopy:
         """
         self.user_path.clear()
 
-    def set_indent(self, indent):
+    def enable_soft_tab(self, tab_size):
         """
-        Set indent sequence used for indentation instead of tab.
+        Enable soft tabs and set tab size.
 
-        :param indent: Indent sequence
+        :param tab_size: Tab size
         """
-        self.indent = indent
+        self.soft_tab = True
+        self.soft_tab_size = tab_size
+
+    def disable_soft_tab(self):
+        """
+        Disable soft tabs.
+        """
+        self.soft_tab = False
 
     def enable_cursor_marker(self):
         """
@@ -87,4 +95,9 @@ class Homotopy:
         syntax_tree = parser_instance.parse(preprocessed_text)
         compiled_snippet = compiler_instance.compile(syntax_tree)
 
-        return indent_manager_instance.indent_base(compiled_snippet)
+        result = indent_manager_instance.indent_base(compiled_snippet)
+
+        if self.soft_tab:
+            result = result.expandtabs(self.soft_tab_size)
+
+        return result

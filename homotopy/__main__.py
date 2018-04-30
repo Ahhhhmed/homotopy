@@ -21,7 +21,7 @@ def main():
     homotopy = Homotopy(args.language)
 
     if args.tabsize:
-        homotopy.set_indent(" "*args.tabsize)
+        homotopy.enable_soft_tab(args.tabsize)
 
     if args.cursor:
         homotopy.enable_cursor_marker()

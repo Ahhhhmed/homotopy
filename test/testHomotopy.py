@@ -10,7 +10,8 @@ class TestHomotopy(TestCase):
 
     def test_init(self):
         self.assertEqual([], self.homotopy_instance.user_path)
-        self.assertEqual('\t', self.homotopy_instance.indent)
+        self.assertEqual(False, self.homotopy_instance.soft_tab)
+        self.assertEqual(4, self.homotopy_instance.soft_tab_size)
         self.assertEqual(False, self.homotopy_instance.put_cursor_marker)
         self.assertEqual("c++", self.homotopy_instance.language)
 
@@ -31,9 +32,15 @@ class TestHomotopy(TestCase):
         self.homotopy_instance.clear_user_lib()
         self.assertEqual([], self.homotopy_instance.user_path)
 
-    def test_set_indent(self):
-        self.homotopy_instance.set_indent("test")
-        self.assertEqual("test", self.homotopy_instance.indent)
+    def test_enable_soft_tabs(self):
+        self.homotopy_instance.enable_soft_tab(2)
+        self.assertEqual(True, self.homotopy_instance.soft_tab)
+        self.assertEqual(2, self.homotopy_instance.soft_tab_size)
+
+    def test_disable_soft_tabs(self):
+        self.homotopy_instance.enable_soft_tab(2)
+        self.homotopy_instance.disable_soft_tab()
+        self.assertEqual(False, self.homotopy_instance.soft_tab)
 
     def test_enable_cursor_marker(self):
         self.homotopy_instance.enable_cursor_marker()
@@ -73,7 +80,7 @@ class TestHomotopy(TestCase):
         mock_indent_manager_instance.indent_base = MagicMock(side_effect=lambda x: x)
         mock_indent_manager.return_value = mock_indent_manager_instance
         mock_provider.return_value = "mock_provider"
-        compile_method.return_value = "compile_method_output"
+        compile_method.return_value = "\tcompile_method_output"
         compile_init.return_value = None
         parser_parse.return_value = "parse_method_output"
         parser_init.return_value = None
@@ -84,7 +91,9 @@ class TestHomotopy(TestCase):
         self.homotopy_instance.enable_cursor_marker()
         self.homotopy_instance.add_lib_folder("test_folder")
 
-        self.assertEqual("compile_method_output", self.homotopy_instance.compile("test_snippet"))
+        self.homotopy_instance.enable_soft_tab(1)
+
+        self.assertEqual(" compile_method_output", self.homotopy_instance.compile("test_snippet"))
 
         mock_provider.assert_called_once_with("c++", ["test_folder", Homotopy.stdlib_path])
         compile_method.assert_called_once_with("parse_method_output")
@@ -95,4 +104,4 @@ class TestHomotopy(TestCase):
         preprocessor_expand_decorators.assert_called_once_with("test_snippet")
         preprocessor_init.assert_called_once_with("mock_provider")
         mock_indent_manager_instance.take_base_indent.assert_called_once_with("test_snippet")
-        mock_indent_manager_instance.indent_base.assert_called_once_with("compile_method_output")
+        mock_indent_manager_instance.indent_base.assert_called_once_with("\tcompile_method_output")
