@@ -10,6 +10,10 @@ Homotopy
 .. image:: https://codecov.io/gh/Ahhhhmed/homotopy/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/Ahhhhmed/homotopy
 
+**Note** that this is an unfinished project.
+It is intended to be used by editor plugins witch are not yet implemented.
+This page will be updated with additional information once the complete implementation is done.
+
 Homotopy is a snippet compiler.
 Instead of expanding and filling the blanks it lets you finish your thought and get the result you are expecting.
 
