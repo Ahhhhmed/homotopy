@@ -6,6 +6,7 @@ Homotopy is a snippet language. It is designed with the focus on writing code an
 That is handled automatically.
 
 This document designed to get you up and running with using Homotopy. It uses *C++* as a working language.
+To see snippets from standard library go to :ref:`snippet_library`.
 
 -----------
 Hello world

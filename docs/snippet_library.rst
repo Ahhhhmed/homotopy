@@ -1,3 +1,5 @@
+.. _snippet_library:
+
 ===============
 Snippet library
 ===============
