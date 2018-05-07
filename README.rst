@@ -10,10 +10,6 @@ Homotopy
 .. image:: https://codecov.io/gh/Ahhhhmed/homotopy/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/Ahhhhmed/homotopy
 
-**Note** that this is an unfinished project.
-It is intended to be used by editor plugins witch are not yet implemented.
-This page will be updated with additional information once the complete implementation is done.
-
 Homotopy is a snippet compiler.
 Instead of expanding and filling the blanks it lets you finish your thought and get the result you are expecting.
 
@@ -38,6 +34,14 @@ Install
 
     pip install homotopy
 
+-------
+Plugins
+-------
+
+This tool is intended to be used inside an editor. Currently only Atom plugin is implemented.
+
+* `Atom`_
+
 ---------------
 Getting started
 ---------------
@@ -45,3 +49,4 @@ Getting started
 See `getting started`_ section in documentation.
 
 .. _getting started: http://homotopy.readthedocs.io/en/latest/getting_started.html
+.. _Atom: https://atom.io/packages/homotopy
