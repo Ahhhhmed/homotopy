@@ -14,7 +14,7 @@ def main():
     parser.add_argument('-c', '--cursor', action='store_true',
                         help='Indicate cursor marker in compiled snippet')
     parser.add_argument('-p', '--path', type=str, metavar="PATH",
-                        help='Path to snippet library folders separated by :')
+                        help='Path to snippet library folders separated by ::')
 
     args = parser.parse_args()
 
@@ -27,7 +27,7 @@ def main():
         homotopy.enable_cursor_marker()
 
     if args.path:
-        for item in args.path.split(':'):
+        for item in args.path.split('::'):
             homotopy.add_lib_folder(item)
 
     print(homotopy.compile(args.snippet), end='')

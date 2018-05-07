@@ -44,7 +44,7 @@ class TestMain(TestCase):
 
         with patch("homotopy.Homotopy.compile", return_value="") as mock_compile:
             with patch("homotopy.Homotopy.add_lib_folder") as mock_add_lib_folder:
-                with patch("sys.argv", ["testing", "-p", "user_folder1:user_folder2", "c++", "invalid_snippet"]):
+                with patch("sys.argv", ["testing", "-p", "user_folder1::user_folder2", "c++", "invalid_snippet"]):
                     homotopy.__main__.main()
 
                 mock_add_lib_folder.assert_has_calls([

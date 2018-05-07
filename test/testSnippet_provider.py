@@ -46,13 +46,13 @@ class TestSnippetProvider(TestCase):
 
                 provider = sp.SnippetProvider("c++", ["test"])
 
-                m.assert_called_once_with("Could not get data from file test.json", exc_info=True)
+                m.assert_called_once_with("Could not read snippet definitions from file: test.json. Ignoring this file.", exc_info=True)
 
         with patch('logging.warning', MagicMock()) as m:
             with patch('builtins.open', mock_open(read_data='invalidJSON')) as m_open:
                 provider = sp.SnippetProvider("c++", ["test"])
 
-                m.assert_called_once_with("Could not get data from file test.json", exc_info=True)
+                m.assert_called_once_with("Could not read snippet definitions from file: test.json. Ignoring this file.", exc_info=True)
 
         with patch('logging.warning', MagicMock()) as m:
             with patch('builtins.open', mock_open(
@@ -60,7 +60,7 @@ class TestSnippetProvider(TestCase):
                           ',{"name": "for","language": "C++","snippet": "if(#){$}"}]')) as m_open:
                 provider = sp.SnippetProvider("c++", ["test"])
 
-                m.assert_called_once_with("Multiple definition for for")
+                m.assert_called_once_with("Multiple definitions for snippet: for")
 
         with patch('builtins.open',
                    mock_open(read_data='[{"name": "for","language": ["C++", "java"],"snippet": "if(#){$}"}]')) as m:
@@ -91,3 +91,12 @@ class TestSnippetProvider(TestCase):
             provider = sp.SnippetProvider("c++", ["test"])
 
             self.assertEqual("for", provider["for"])
+
+    @patch('logging.warning')
+    @patch('os.listdir', side_effect=FileNotFoundError())
+    def test_errors(self, listdir, warning):
+        provider = sp.SnippetProvider("c++", ["test"])
+
+        warning.assert_called_once_with("Could not open path: test. Ignoring this folder.")
+        listdir.assert_called_once_with("test")
+
