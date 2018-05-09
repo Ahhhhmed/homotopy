@@ -412,6 +412,6 @@ Homotopy can also be used as a console application. In fact, this is the intende
       -t N, --tabsize N     Number of spaces in one tab. Tabs remain tabs if
                             absent
       -c, --cursor          Indicate cursor marker in compiled snippet
-      -p PATH, --path PATH  Path to snippet library folders separated by :
+      -p PATH, --path PATH  Path to snippet library folders separated by ::
 
 

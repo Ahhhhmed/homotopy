@@ -42,11 +42,14 @@ This tool is intended to be used inside an editor. Currently only Atom plugin is
 
 * `Atom`_
 
+See `making_a_plugin`_ if you want to create a plugin.
+
 ---------------
 Getting started
 ---------------
 
 See `getting started`_ section in documentation.
 
+.. _making_a_plugin: http://homotopy.readthedocs.io/en/latest/making_a_plugin.html
 .. _getting started: http://homotopy.readthedocs.io/en/latest/getting_started.html
 .. _Atom: https://atom.io/packages/homotopy

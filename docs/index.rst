@@ -13,3 +13,5 @@ Homotopy documentation
    getting_started
    snippet_library
    contributing
+   plugins
+   making_a_plugin
