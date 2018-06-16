@@ -1,18 +1,28 @@
 [
-  {"name": "for","language": ["C++", "C", "Java"],"snippet": "for(### $$$=%%%; $$$<{{for_end}}; $$$++){\n{{inside_block}}\n}"},
-  {"name": "forr","language": ["C++", "C", "Java"],"snippet": "for(### $$$=%%%; $$$>={{for_end}}; $$$--){\n{{inside_block}}\n}"},
-  {"name": "for_end","language": ["C++", "C", "Java"],"snippet": "%%%"},
+  {"name": "for","language": ["C++", "C", "Java", "JavaScript"],"snippet": "for(### $$$=%%%; $$$<{{for_end}}; $$$++){\n{{inside_block}}\n}"},
+  {"name": "forr","language": ["C++", "C", "Java", "JavaScript"],"snippet": "for(### $$$=%%%; $$$>={{for_end}}; $$$--){\n{{inside_block}}\n}"},
+  {"name": "for_end","language": ["C++", "C", "Java", "JavaScript"],"snippet": "%%%"},
 
-  {"name": "if","language": ["C++", "C", "Java"],"snippet": "if($$$){\n{{inside_block}}\n}"},
-  {"name": "else","language": ["C++", "C", "Java"],"snippet": "else {\n{{inside_block}}\n}"},
-  {"name": "while","language": ["C++", "C", "Java"],"snippet": "while($$$){\n{{inside_block}}\n}"},
+  {"name": "if","language": ["C++", "C", "Java", "JavaScript"],"snippet": "if($$$){\n{{inside_block}}\n}"},
+  {"name": "else","language": ["C++", "C", "Java", "JavaScript"],"snippet": "else {\n{{inside_block}}\n}"},
+  {"name": "while","language": ["C++", "C", "Java", "JavaScript"],"snippet": "while($$$){\n{{inside_block}}\n}"},
 
-  {"name": "switch","language": ["C++", "C", "Java"],"snippet": "switch($$$){\n{{inside_block}}\n}"},
-  {"name": "case","language": ["C++", "C", "Java"],"snippet": "case $$${{opt_case}}:\n{{inside_block}}\n\tbreak;"},
-  {"name": "opt_case","language": ["C++", "C", "Java"],"snippet": ":\ncase $$${{opt_case}}"},
-  {"name": "default","language": ["C++", "C", "Java"],"snippet": "default:\n{{inside_block}}\n\tbreak;"},
+  {"name": "switch","language": ["C++", "C", "Java", "JavaScript"],"snippet": "switch($$$){\n{{inside_block}}\n}"},
+  {"name": "case","language": ["C++", "C", "Java", "JavaScript"],"snippet": "case $$${{opt_case}}:\n{{inside_block}}\n\tbreak;"},
+  {"name": "opt_case","language": ["C++", "C", "Java", "JavaScript"],"snippet": ":\ncase $$${{opt_case}}"},
+  {"name": "default","language": ["C++", "C", "Java", "JavaScript"],"snippet": "default:\n{{inside_block}}\n\tbreak;"},
 
-  {"name": "func","language": ["C"],"snippet": "### @@@({{params}}){\n{{inside_block}}\n}"},
   {"name": "params","language": ["C++", "C", "Java"],"snippet": "### $$${{opt_params}}"},
-  {"name": "opt_params","language": ["C++", "C", "Java"],"snippet": ", ### $$${{opt_params}}"}
+  {"name": "opt_params","language": ["C++", "C", "Java"],"snippet": ", ### $$${{opt_params}}"},
+
+  {"name": "call","language": ["C++", "C", "Java", "JavaScript"],"snippet": "@@@({{val_call_params}}{{call_params}});"},
+  {"name": "val_call_params","language": ["C++", "C", "Java", "JavaScript"],"snippet": "$$${{opt_val_call_params}}{{opt_call_params}}"},
+  {"name": "opt_val_call_params","language": ["C++", "C", "Java", "JavaScript"],"snippet": ", $$${{opt_val_call_params}}"},
+  {"name": "call_params","language": ["C++", "C", "Java", "JavaScript"],"snippet": ">>>{{opt_call_params}}"},
+  {"name": "opt_call_params","language": ["C++", "C", "Java", "JavaScript"],"snippet": ", >>>{{opt_call_params}}"},
+  {"name": "call2","language": ["C++", "C", "Java", "JavaScript"],"snippet": "@@@({{val_call2_params}}{{call2_params}});"},
+  {"name": "val_call2_params","language": ["C++", "C", "Java", "JavaScript"],"snippet": "\n\t$$${{opt_val_call2_params}}{{opt_call2_params}}\n"},
+  {"name": "opt_val_call2_params","language": ["C++", "C", "Java", "JavaScript"],"snippet": ",\n\t$$${{opt_val_call2_params}}"},
+  {"name": "call2_params","language": ["C++", "C", "Java", "JavaScript"],"snippet": "\n\t>>>{{opt_call2_params}}\n"},
+  {"name": "opt_call2_params","language": ["C++", "C", "Java", "JavaScript"],"snippet": ",\n\t>>>{{opt_call2_params}}"}
 ]

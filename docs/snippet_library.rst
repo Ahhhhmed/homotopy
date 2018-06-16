@@ -11,6 +11,7 @@ This document contains snippet examples for most of snippets from standard libra
 * `C`_
 * `Java`_
 * `Python`_
+* `JavaScript`_
 
 ----
 Core
@@ -63,6 +64,29 @@ C++
 Commands
 ^^^^^^^^
 
+call (function call):
+
+.. code-block:: text
+
+    call@foo$param1>param2
+
+.. code-block:: C++
+
+    foo(param1, param2);
+
+call2 (function call in multiple lines):
+
+.. code-block:: text
+
+    call2@foo$param1>param2
+
+.. code-block:: C++
+
+    foo(
+      param1,
+      param2
+    );
+
 stdinc:
 
 .. code-block:: text
@@ -72,8 +96,6 @@ stdinc:
 .. code-block:: C++
 
     #include <stdio.h>
-
----------------------------
 
 inc:
 
@@ -100,8 +122,6 @@ for:
 
     }
 
----------------------------
-
 forr:
 
 .. code-block:: text
@@ -113,8 +133,6 @@ forr:
     for(int i=n; i>=0; i--){
 
     }
-
----------------------------
 
 forin:
 
@@ -128,8 +146,6 @@ forin:
 
    }
 
----------------------------
-
 if:
 
 .. code-block:: text
@@ -141,8 +157,6 @@ if:
    if(true){
        printf("Always");
    }
-
----------------------------
 
 else:
 
@@ -159,8 +173,6 @@ else:
         return 3;
     }
 
----------------------------
-
 while:
 
 .. code-block:: text
@@ -172,8 +184,6 @@ while:
    while(true){
        printf("Forever and always");
    }
-
----------------------------
 
 switch:
 
@@ -223,8 +233,6 @@ struct:
        int first, second;
    };
 
----------------------------
-
 class:
 
 .. code-block:: text
@@ -240,8 +248,6 @@ class:
        int b;
    };
 
----------------------------
-
 enum:
 
 .. code-block:: text
@@ -255,8 +261,6 @@ enum:
        green,
        blue
    };
-
----------------------------
 
 enum1 (enum in single line):
 
@@ -310,8 +314,6 @@ func (function):
 *Note that values* :code:`i` *and* :code:`j` *are specified first and type int after.
 This makes both* :code:`i` *and* :code:`j` *ints without typing int twice.*
 
----------------------------
-
 method:
 
 .. code-block:: text
@@ -327,8 +329,6 @@ method:
        }
    };
 
----------------------------
-
 nimethod (not implemented method):
 
 .. code-block:: text
@@ -341,8 +341,6 @@ nimethod (not implemented method):
    public:
        int five();
    };
-
----------------------------
 
 amethod (abstract method):
 
@@ -357,8 +355,6 @@ amethod (abstract method):
        int five() = 0;
    };
 
----------------------------
-
 dmethod (deleted method):
 
 .. code-block:: text
@@ -372,8 +368,6 @@ dmethod (deleted method):
        int five() = delete;
    };
 
----------------------------
-
 methodi1 (single method implementation):
 
 .. code-block:: text
@@ -385,8 +379,6 @@ methodi1 (single method implementation):
    int A::five(){
        return 5;
    }
-
----------------------------
 
 mithodi (method implementation):
 
@@ -405,8 +397,6 @@ mithodi (method implementation):
    }
 
 *Note that* :code:`wblock` *is used here to bind class parameter that is used by both children snippets.*
-
----------------------------
 
 constr (constructor):
 
@@ -492,8 +482,6 @@ singleton:
        void operator=(A const& origin);
    };
 
----------------------------
-
 composite (class and method):
 
 .. code-block:: text
@@ -524,6 +512,29 @@ C
 Commands
 ^^^^^^^^
 
+call (function call):
+
+.. code-block:: text
+
+    call@foo$param1>param2
+
+.. code-block:: C
+
+    foo(param1, param2);
+
+call2 (function call in multiple lines):
+
+.. code-block:: text
+
+    call2@foo$param1>param2
+
+.. code-block:: C
+
+    foo(
+      param1,
+      param2
+    );
+
 stdinc:
 
 .. code-block:: text
@@ -533,8 +544,6 @@ stdinc:
 .. code-block:: C
 
     #include <stdio.h>
-
----------------------------
 
 inc:
 
@@ -561,8 +570,6 @@ for:
 
     }
 
----------------------------
-
 forr:
 
 .. code-block:: text
@@ -575,8 +582,6 @@ forr:
 
     }
 
----------------------------
-
 if:
 
 .. code-block:: text
@@ -588,8 +593,6 @@ if:
    if(true){
        printf("Always");
    }
-
----------------------------
 
 else:
 
@@ -606,8 +609,6 @@ else:
         return 3;
     }
 
----------------------------
-
 while:
 
 .. code-block:: text
@@ -619,8 +620,6 @@ while:
    while(true){
        printf("Forever and always");
    }
-
----------------------------
 
 switch:
 
@@ -655,8 +654,6 @@ switch:
            break;
    }
 
----------------------------
-
 Objects
 ^^^^^^^
 
@@ -672,8 +669,6 @@ struct:
        int first, second;
    };
 
----------------------------
-
 tdstruct (typedef struct):
 
 .. code-block:: text
@@ -685,8 +680,6 @@ tdstruct (typedef struct):
    typedef struct{
         int first, second;
     } pair;
-
----------------------------
 
 enum:
 
@@ -701,8 +694,6 @@ enum:
        green,
        blue
    };
-
----------------------------
 
 enum1 (enum in single line):
 
@@ -733,6 +724,32 @@ func (function):
 Java
 ----
 
+Commands
+^^^^^^^^
+
+call (function call):
+
+.. code-block:: text
+
+    call@foo$param1>param2
+
+.. code-block:: Java
+
+    foo(param1, param2);
+
+call2 (function call in multiple lines):
+
+.. code-block:: text
+
+    call2@foo$param1>param2
+
+.. code-block:: Java
+
+    foo(
+      param1,
+      param2
+    );
+
 Flow control
 ^^^^^^^^^^^^
 
@@ -748,8 +765,6 @@ for:
 
     }
 
----------------------------
-
 forr:
 
 .. code-block:: text
@@ -761,8 +776,6 @@ forr:
     for(int i=n; i>=0; i--){
 
     }
-
----------------------------
 
 forin:
 
@@ -776,8 +789,6 @@ forin:
 
    }
 
----------------------------
-
 if:
 
 .. code-block:: text
@@ -789,8 +800,6 @@ if:
    if(true){
        printf("Always");
    }
-
----------------------------
 
 else:
 
@@ -807,8 +816,6 @@ else:
         return 3;
     }
 
----------------------------
-
 while:
 
 .. code-block:: text
@@ -820,8 +827,6 @@ while:
    while(true){
        printf("Forever and always");
    }
-
----------------------------
 
 switch:
 
@@ -871,8 +876,6 @@ class:
 
     }
 
----------------------------
-
 method:
 
 .. code-block:: text
@@ -886,8 +889,6 @@ method:
 
         }
     }
-
----------------------------
 
 pmethod (private method):
 
@@ -903,8 +904,6 @@ pmethod (private method):
         }
     }
 
----------------------------
-
 promethod (protected method):
 
 .. code-block:: text
@@ -919,8 +918,6 @@ promethod (protected method):
         }
     }
 
----------------------------
-
 amethod (abstract method):
 
 .. code-block:: text
@@ -932,8 +929,6 @@ amethod (abstract method):
     class A extends B {
         public int abstract five();
     }
-
----------------------------
 
 amethod (abstract method):
 
@@ -947,8 +942,6 @@ amethod (abstract method):
         public abstract int five();
     }
 
----------------------------
-
 pamethod (private abstract method):
 
 .. code-block:: text
@@ -961,8 +954,6 @@ pamethod (private abstract method):
         private abstract int five();
     }
 
----------------------------
-
 method1 (single line method):
 
 .. code-block:: text
@@ -974,8 +965,6 @@ method1 (single line method):
     class A extends B {
         public int five(){ return 5; }
     }
-
----------------------------
 
 constr (constructor):
 
@@ -991,8 +980,6 @@ constr (constructor):
         }
     }
 
----------------------------
-
 constr1 (single line constructor):
 
 .. code-block:: text
@@ -1004,8 +991,6 @@ constr1 (single line constructor):
     class A extends B {
         public A(){ }
     }
-
----------------------------
 
 pconstr (private constructor):
 
@@ -1021,8 +1006,6 @@ pconstr (private constructor):
         }
     }
 
----------------------------
-
 enum:
 
 .. code-block:: text
@@ -1036,8 +1019,6 @@ enum:
        green,
        blue
    }
-
----------------------------
 
 enum1 (single line enum):
 
@@ -1063,8 +1044,6 @@ class template:
    class A<T> {
 
     }
-
----------------------------
 
 method template:
 
@@ -1103,8 +1082,6 @@ singleton:
             return instance;
         }
     }
-
----------------------------
 
 composite (class and method):
 
@@ -1145,8 +1122,6 @@ forin:
     for i in collection:
         pass
 
----------------------------
-
 for (same as forin but shorter):
 
 .. code-block:: text
@@ -1158,8 +1133,6 @@ for (same as forin but shorter):
     for i in collection:
         pass
 
----------------------------
-
 if:
 
 .. code-block:: text
@@ -1170,8 +1143,6 @@ if:
 
     if i==0:
         print("i is zero")
-
----------------------------
 
 else:
 
@@ -1185,8 +1156,6 @@ else:
         print("i is zero")
     else:
         print("i is not zero")
-
----------------------------
 
 elif:
 
@@ -1202,8 +1171,6 @@ elif:
         print("i is one")
     else:
         print("i is not zero nor one")
-
----------------------------
 
 while:
 
@@ -1230,8 +1197,6 @@ func:
     def foo(i):
         pass
 
----------------------------
-
 class:
 
 .. code-block:: text
@@ -1242,8 +1207,6 @@ class:
 
     class A(B):
         pass
-
----------------------------
 
 method:
 
@@ -1256,8 +1219,6 @@ method:
     class A(B):
         def foo(self, i):
             pass
-
----------------------------
 
 smethod (static method):
 
@@ -1272,8 +1233,6 @@ smethod (static method):
         def foo(i):
             pass
 
----------------------------
-
 cmethod (class method):
 
 .. code-block:: text
@@ -1287,8 +1246,6 @@ cmethod (class method):
         def foo(cls, i):
             pass
 
----------------------------
-
 constr (constructor):
 
 .. code-block:: text
@@ -1300,7 +1257,6 @@ constr (constructor):
     class A(B):
         def __init__(self, i):
             pass
-
 
 Main
 ^^^^
@@ -1315,3 +1271,345 @@ main:
 
     if __name__ == "__main__":
         pass
+
+----------
+JavaScript
+----------
+
+Commands
+^^^^^^^^
+
+call (function call):
+
+.. code-block:: text
+
+    call@foo$param1>param2
+
+.. code-block:: C++
+
+    foo(param1, param2);
+
+call2 (function call in multiple lines):
+
+.. code-block:: text
+
+    call2@foo$param1>f>3
+
+.. code-block:: JavaScript
+
+    foo(
+      param1,
+      function (){ return 3; }
+    );
+
+var:
+
+.. code-block:: text
+
+    var$x$3
+
+.. code-block:: JavaScript
+
+    var x = 3;
+
+---------------------------
+
+.. code-block:: text
+
+    var$plus>a$i$j>i+j
+
+.. code-block:: JavaScript
+
+    var plus = (i, j) => i+j;
+
+let:
+
+.. code-block:: text
+
+    let$x$3
+
+.. code-block:: JavaScript
+
+    let x = 3;
+
+Flow control
+^^^^^^^^^^^^
+
+for:
+
+.. code-block:: text
+
+    for#var$i%0%n
+
+.. code-block:: JavaScript
+
+    for(var i=0; i<n; i++){
+
+    }
+
+forr:
+
+.. code-block:: text
+
+    forr#var$i%n%0
+
+.. code-block:: JavaScript
+
+    for(var i=n; i>=0; i--){
+
+    }
+
+forin:
+
+.. code-block:: text
+
+    forin$i%array
+
+.. code-block:: JavaScript
+
+    for(let i of array){
+
+    }
+
+forof:
+
+.. code-block:: text
+
+    forof$i%array
+
+.. code-block:: JavaScript
+
+    for(let i of array){
+
+    }
+
+if:
+
+.. code-block:: text
+
+    if$true>console.log("Always");
+
+.. code-block:: JavaScript
+
+   if(true){
+       console.log("Always");
+   }
+
+else:
+
+.. code-block:: text
+
+    if$i==2>return 4;<else>return 3;
+
+.. code-block:: C
+
+    if(i==2){
+        return 4;
+    }
+    else {
+        return 3;
+    }
+
+while:
+
+.. code-block:: text
+
+    while$true>console.log("Forever and always");
+
+.. code-block:: JavaScript
+
+   while(true){
+       console.log("Forever and always");
+   }
+
+switch:
+
+.. code-block:: text
+
+    switch$i>case$1>console.log("one");<case$2>console.log("two");
+
+.. code-block:: JavaScript
+
+    switch(i){
+       case 1:
+           console.log("one");
+           break;
+
+       case 2:
+           console.log("two");
+           break;
+    }
+
+---------------------------
+
+.. code-block:: text
+
+    switch$i>case$1$2>console.log("one or two");
+
+.. code-block:: JavaScript
+
+    switch(i){
+       case 1:
+       case 2:
+           console.log("one or two");
+           break;
+    }
+
+Object
+^^^^^^
+
+dict (dictionary):
+
+.. code-block:: text
+
+    dict>key$item1$1&key$item2$2
+
+.. code-block:: JavaScript
+
+    {
+      item1: 1,
+      item2: 2
+    }
+
+d (dictionary, short):
+
+.. code-block:: text
+
+    d>k$item1$1&k$item2$2
+
+.. code-block:: JavaScript
+
+    {
+      "item1": 1,
+      "item2": 2
+    }
+
+d (dictionary, nested example):
+
+.. code-block:: text
+
+    d>k$item1>d>k$nested$1<<&k$item2$2
+
+.. code-block:: JavaScript
+
+    {
+      "item1": {
+        "nested": 1
+      },
+      "item2": 2
+    }
+
+dict1 (dictionary, single line):
+
+.. code-block:: text
+
+    dict1>key$"item1"$1&k$item2$2
+
+.. code-block:: JavaScript
+
+    {"item1": 1, "item2": 2}
+
+*Note* that :code:`key` is used to build arbitrary key and :code:`k` is used to build a string key.
+
+array:
+
+.. code-block:: text
+
+    array>item1&item2
+
+.. code-block:: JavaScript
+
+    [
+      item1,
+      item2
+    ]
+
+array1 (array, single line):
+
+.. code-block:: text
+
+    array1>item1&item2
+
+.. code-block:: JavaScript
+
+    [item1, item2]
+
+
+Functions
+^^^^^^^^^
+
+func (function):
+
+.. code-block:: text
+
+    func@plus$i$j>return i+j;
+
+.. code-block:: JavaScript
+
+    function plus(i, j){
+      return i+j;
+    }
+
+---------------------------
+
+.. code-block:: text
+
+    func$i$j>return i+j;
+
+.. code-block:: JavaScript
+
+    function (i, j){
+      return i+j;
+    }
+
+func1 (function, single line):
+
+.. code-block:: text
+
+    func1$i$j>return i+j;
+
+.. code-block:: JavaScript
+
+    function (i, j){ return i+j; }
+
+f (function, single expression):
+
+.. code-block:: text
+
+    f$i$j>i+j
+
+.. code-block:: JavaScript
+
+    function (i, j){ return i+j; }
+
+arrow (arrow function):
+
+.. code-block:: text
+
+    arrow$i$j>return i+j;
+
+.. code-block:: JavaScript
+
+    (i, j) => {
+      return i+j;
+    }
+
+arrow1 (arrow function, single line):
+
+.. code-block:: text
+
+    arrow1$i$j>return i+j;
+
+.. code-block:: JavaScript
+
+    (i, j) => { return i+j; }
+
+a (arrow function, single expression):
+
+.. code-block:: text
+
+    a$i$j>i+j
+
+.. code-block:: JavaScript
+
+    (i, j) => i+j

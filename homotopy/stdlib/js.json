@@ -1,0 +1,48 @@
+[
+  {"name": "forin","language": "JavaScript","snippet": "for(let $$$ of %%%){\n{{inside_block}}\n}"},
+  {"name": "forof","language": "JavaScript","snippet": "for(let $$$ of %%%){\n{{inside_block}}\n}"},
+
+  {"name": "dict1","language": "JavaScript","snippet": "{{{dict1_keys}}}"},
+  {"name": "dict1_keys","language": "JavaScript","snippet": ">>>{{opt_dict1_keys}}"},
+  {"name": "opt_dict1_keys","language": "JavaScript","snippet": ", >>>{{opt_dict1_keys}}"},
+  {"name": "dict","language": "JavaScript","snippet": "{{{dict_keys}}}"},
+  {"name": "d","language": "JavaScript","snippet": "{{{dict_keys}}}"},
+  {"name": "dict_keys","language": "JavaScript","snippet": "\n\t>>>{{opt_dict_keys}}\n"},
+  {"name": "opt_dict_keys","language": "JavaScript","snippet": ",\n\t>>>{{opt_dict_keys}}"},
+
+  {"name": "key","language": "JavaScript","snippet": "$$$: {{opt_value}}{{opt_nested_value}}"},
+  {"name": "k","language": "JavaScript","snippet": "\"$$$\": {{opt_value}}{{opt_nested_value}}"},
+  {"name": "opt_value","language": "JavaScript","snippet": "$$$"},
+  {"name": "opt_nested_value","language": "JavaScript","snippet": ">>>"},
+
+  {"name": "array1","language": "JavaScript","snippet": "[{{array1_keys}}]"},
+  {"name": "array1_keys","language": "JavaScript","snippet": ">>>{{opt_array1_keys}}"},
+  {"name": "opt_array1_keys","language": "JavaScript","snippet": ", >>>{{opt_array1_keys}}"},
+  {"name": "array","language": "JavaScript","snippet": "[{{array_keys}}]"},
+  {"name": "array_keys","language": "JavaScript","snippet": "\n\t>>>{{opt_array_keys}}\n"},
+  {"name": "opt_array_keys","language": "JavaScript","snippet": ",\n\t>>>{{opt_array_keys}}"},
+
+  {"name": "class","language": "JavaScript","snippet": "class !!!{{extend}} {\n{{inside_wblock}}\n}"},
+  {"name": "extend","language": "JavaScript","snippet": " extends :::"},
+
+  {"name": "method","language": "JavaScript","snippet": "@@@({{params}}){\n{{inside_block}}\n}"},
+  {"name": "method1","language": "JavaScript","snippet": "@@@({{params}}){{{single_line_method}} }"},
+  {"name": "single_line_method","language": "JavaScript","snippet": " >>>{{single_line_method}}"},
+
+  {"name": "constr","language": "JavaScript","snippet": "constructor({{params}}){\n{{inside_block}}\n}"},
+  {"name": "constr1","language": "JavaScript","snippet": "constructor({{params}}){{{single_line_method}} }"},
+
+  {"name": "params","language": "JavaScript","snippet": "$$${{opt_params}}"},
+  {"name": "opt_params","language": "JavaScript","snippet": ", $$${{opt_params}}"},
+
+  {"name": "func","language": "JavaScript","snippet": "function {{opt_func_name}}({{params}}){\n{{inside_block}}\n}"},
+  {"name": "func1","language": "JavaScript","snippet": "function {{opt_func_name}}({{params}}){{{single_line_method}} }"},
+  {"name": "f","language": "JavaScript","snippet": "function {{opt_func_name}}({{params}}){ return >>>; }"},
+  {"name": "arrow","language": "JavaScript","snippet": "({{params}}) => {\n{{inside_block}}\n}"},
+  {"name": "arrow1","language": "JavaScript","snippet": "({{params}}) => {{{single_line_method}} }"},
+  {"name": "a","language": "JavaScript","snippet": "({{params}}) => >>>"},
+  {"name": "opt_func_name","language": "JavaScript","snippet": "@@@"},
+
+  {"name": "let","language": "JavaScript","snippet": "let $$$ = {{opt_value}}{{opt_nested_value}};"},
+  {"name": "var","language": "JavaScript","snippet": "var $$$ = {{opt_value}}{{opt_nested_value}};"}
+]

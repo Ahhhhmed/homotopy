@@ -111,6 +111,58 @@ switch(i){
 }
 """)
 
+    def testCall(self):
+        self.verifySingleSnippet('call@foo>param1&param2<', """
+foo(param1, param2);
+[{cursor_marker}]
+""")
+
+        self.verifySingleSnippet('call@foo', """
+foo();
+[{cursor_marker}]
+""")
+
+        self.verifySingleSnippet('call2@foo>param<', """
+foo(
+\tparam
+);
+[{cursor_marker}]
+""")
+
+        self.verifySingleSnippet('call2@foo>param1&param2<', """
+foo(
+\tparam1,
+\tparam2
+);
+[{cursor_marker}]
+""")
+
+        self.verifySingleSnippet('call2@foo$param1>param2<', """
+foo(
+\tparam1,
+\tparam2
+);
+[{cursor_marker}]
+""")
+
+        self.verifySingleSnippet('call2@foo$param1$param2', """
+foo(
+\tparam1,
+\tparam2
+);
+[{cursor_marker}]
+""")
+
+        self.verifySingleSnippet('call@foo$param1>param2<', """
+foo(param1, param2);
+[{cursor_marker}]
+""")
+
+        self.verifySingleSnippet('call@foo$param1$param2', """
+foo(param1, param2);
+[{cursor_marker}]
+""")
+
     def testObjects(self):
         self.verifySingleSnippet('struct!A>int a;', """
 struct A {
