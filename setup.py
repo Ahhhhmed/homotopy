@@ -3,7 +3,7 @@ import os
 
 setup(
     name='homotopy',
-    version='0.1.a1',
+    version='0.1.a2',
     packages=['homotopy'],
     license='MIT',
     author='Nenad Vasic',
