@@ -85,7 +85,7 @@ class Compiler(SnippetVisitor):
             self.context_manager.new_scope()
 
             before_operation_text = left[0:left.find(operation_text)]
-            m = re.search(r"\n([\t ]*)$", before_operation_text)
+            m = re.search(r"\n([\t ]*)\Z", before_operation_text)
             indent = m.group(1) if m else ""
         else:
             old_inside_parameter = self.inside_parameter

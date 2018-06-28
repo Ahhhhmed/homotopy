@@ -189,3 +189,14 @@ int main(int argc, char* argv[]){
 \t[{cursor_marker}]
 }
 """)
+
+        self.verifySingleSnippet('stdinc$stdio.h& &[[main]]>printf("Hello, world\!");& &return 0;', """
+#include <stdio.h>
+
+int main(int argc, char* argv[]){
+\tprintf("Hello, world!");
+
+\treturn 0;
+\t[{cursor_marker}]
+}
+""")
