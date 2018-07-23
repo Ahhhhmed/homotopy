@@ -45,7 +45,7 @@ wblock (wide block):
 
     line2
 
-*Note that* :code:`wblock` *is the implicit parent of all snippets. Next snippet sill have the same result.*
+*Note that* :code:`block` *is the implicit parent of all snippets. Next snippet sill have the same result.*
 
 .. code-block:: text
 
@@ -54,7 +54,6 @@ wblock (wide block):
 .. code-block:: C
 
     line1
-
     line2
 
 ---

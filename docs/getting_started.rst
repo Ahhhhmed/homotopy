@@ -14,7 +14,7 @@ Hello world
 
 .. code-block:: text
 
-    stdinc$stdio.h& &[[main]]>printf("Hello, world\!");&return 0;
+    stdinc$stdio.h& &[[main]]>printf("Hello, world\!");& &return 0;
 
 .. code-block:: C
 
@@ -211,7 +211,7 @@ This is a fairly large example but includes most of the feathers of Homotopy.
 
 .. code-block:: text
 
-    stdinc$stdio.h&[[main]]>printf("Hello, world\!");&return 0;
+    stdinc$stdio.h& &[[main]]>printf("Hello, world\!");&return 0;
 
 At the top level there are three snippets:
 
@@ -219,7 +219,7 @@ At the top level there are three snippets:
 2. Space for an empty line.
 3. :code:`[[main]]>printf("Hello, world\!");&return 0;`
 
-They are implicitly inside an implicit :code:`block` snippet. Block snippet just separate snippets lines.
+They are implicitly inside an implicit :code:`block` snippet. Block snippet just separate snippets by lines.
 
 Definitions used to compile this snippet:
 
@@ -231,8 +231,8 @@ Definitions used to compile this snippet:
     {"name": "func","language": "C++","snippet": "### @@@({{params}}){\n{{inside_wblock}}\n}"},
     {"name": "params","language": "C++","snippet": "### $$${{opt_params}}"},
     {"name": "opt_params","language": "C++","snippet": ", ### $$${{opt_params}}"},
-    {"name": "inside_wblock","language": "C++","snippet": "\t>>>{{opt_inside_wblock}}"},
-    {"name": "opt_inside_wblock","language": "C++","snippet": "\n\n\t>>>{{opt_inside_wblock}}"}
+    {"name": "inside_wblock","language": "C++","snippet": "\t>>>{{opt_inside_block}}"},
+    {"name": "opt_inside_block","language": "C++","snippet": "\n\t>>>{{opt_inside_block}}"}
     ]
 
 :code:`stdinc` has the definition :code:`#include <$$$>`
@@ -241,34 +241,24 @@ and :code:`stdio.h` just gets replaced in to get :code:`#include <stdio.h>`
 Lets now go through the third snippet step by step:
 
 1. :code:`[[main]]` gets expanded into :code:`func#int@main#int$argc#char*$argv[]`.
-2. :code:`func` get expanded into :code:`### @@@({{params}}){\n{{inside_wblock}}\n}`.
+2. :code:`func` get expanded into :code:`### @@@({{params}}){\n{{inside_block}}\n}`.
 3. :code:`###` gets replaced with :code:`int`.
 4. :code:`@@@` gets replaced with :code:`main`.
-   Now, partial result is :code:`int main({{params}}){\n{{inside_wblock}}\n}`.
+   Now, partial result is :code:`int main({{params}}){\n{{inside_block}}\n}`.
 5. :code:`###` is not present in the current partial result so :code:`{{params}}` gets expanded
    because it contains :code:`###`.
-   New partial result is :code:`int main(### $$${{opt_params}}){\n{{inside_wblock}}\n}`.
+   New partial result is :code:`int main(### $$${{opt_params}}){\n{{inside_block}}\n}`.
 6. :code:`###` gets replaced with :code:`int`.
 7. :code:`$$$` gets replaced with :code:`argc`.
 8. Similar to **5**, :code:`{{opt_params}}` gets replaced with :code:`, ### $$${{opt_params}}`.
 9. :code:`###` gets replaced with :code:`char*`.
 10. :code:`$$$` gets replaced with :code:`argv[]`.
-11. Similar to **5** and **8**, :code:`{{inside_wblock}}` gets replaced with :code:`\t>>>{{opt_inside_wblock}}`.
+11. Similar to **5** and **8**, :code:`{{inside_block}}` gets replaced with :code:`\t>>>{{opt_inside_block}}`.
 12. Compile snippet :code:`printf("Hello, world\!");`.
     This is trivial in this case and the result :code:`printf("Hello, world!");`.
     :code:`!` gets escaped and everything else stays the same.
 13. :code:`>>>` gets replaced with :code:`printf("Hello, world!");`.
-14. Similar to **5**, **8** and **11**, :code:`{{opt_inside_wblock}}` gets replaced with :code:`\n\n\t>>>{{opt_inside_wblock}}`.
+14. Similar to **5**, **8** and **11**, :code:`{{opt_inside_block}}` gets replaced with :code:`\n\t>>>{{opt_inside_block}}`.
 15. :code:`return 0;` get trivially compiled to :code:`return 0;`.
 16. :code:`>>>` gets replaced with :code:`return 0;`.
-17. Result gets cleaned from sub-snippets like :code:`{{opt_inside_wblock}}` and :code:`{{opt_params}}`.
-
-.. code-block:: C
-
-    #include <stdio.h>
-
-    int main(int argc, char* argv[]){
-        printf("Hello, world!");
-
-        return 0;
-    }
+17. Result gets cleaned from sub-snippets like :code:`{{opt_inside_block}}` and :code:`{{opt_params}}`.
