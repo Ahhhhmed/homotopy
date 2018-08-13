@@ -27,11 +27,10 @@ class CodeGenerator(SnippetVisitor):
         left_side = self.visit(composite_snippet.left)
         operation_text = composite_snippet.operation * 3
 
-        if operation_text in left_side:
-            return self.substitute(left_side, composite_snippet.operation, composite_snippet.right, operation_text)
+        if operation_text not in left_side:
+            left_side = self.expand_snippet(left_side, operation_text)
 
-        expanded_left_side = self.expand_snippet(left_side, operation_text)
-        return self.substitute(expanded_left_side, composite_snippet.operation, composite_snippet.right, operation_text)
+        return self.substitute(left_side, composite_snippet.operation, composite_snippet.right, operation_text)
 
     def visit_simple_snippet(self, simple_snippet):
         """
