@@ -18,8 +18,7 @@ class CodeGenerator(SnippetVisitor):
 
     def visit_composite_snippet(self, composite_snippet):
         """
-        Replace right site in the appropriate place in the left side.
-        Expand left side if needed. Manage scopes.
+        Generate output for composite snippet.
 
         :param composite_snippet: Composite snippet
         :return: Text of left side replaced with right side
@@ -80,6 +79,15 @@ class CodeGenerator(SnippetVisitor):
             text)
 
     def substitute(self, left, operation, right_tree, operation_text):
+        """
+        Replace right site in the appropriate place in the left side.
+
+        :param left: left side value
+        :param operation: operation character
+        :param right_tree: right side tree
+        :param operation_text: operation text in left side value
+        :return:
+        """
         if operation == Parser.in_operator:
             self.context_manager.new_scope()
 
