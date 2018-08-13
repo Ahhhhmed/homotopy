@@ -113,7 +113,7 @@ class CodeGenerator(SnippetVisitor):
 
     def generate_code(self, snippet):
         """
-        Compile a snippet. Visit and then perform a clean.
+        Generate code for a snippet. Visit and then perform a clean.
 
         :param snippet: Snippet
         :return: Text of compiled snippet
