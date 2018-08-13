@@ -84,34 +84,6 @@ class TestCodeGenerator(TestCase):
                 call('%%%', 'data')
             ])
 
-        with patch('homotopy.code_generator.ContextManager.add_variable') as mock_add_variable:
-            self.assertEqual(
-                self.code_generator_instance.generate_code(st.CompositeSnippet(
-                    st.CompositeSnippet(
-                        st.SimpleSnippet('doo'),
-                        '$',
-                        st.CompositeSnippet(
-                            st.CompositeSnippet(
-                                st.SimpleSnippet('def'),
-                                '!',
-                                st.SimpleSnippet('foo')
-                            ),
-                            '#',
-                            st.SimpleSnippet('a')
-                        )),
-                    '#',
-                    st.SimpleSnippet('b')
-                )),
-                'doo def foo(a):\n\tpass'
-            )
-
-            mock_add_variable.assert_has_calls([
-                call('!!!', 'foo'),
-                call('###', 'a'),
-                call('$$$', 'def foo(a):\n\tpass'),
-                call('###', 'b'),
-            ])
-
         self.assertEqual(
             self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.CompositeSnippet(st.SimpleSnippet('def'), '!', st.SimpleSnippet('foo')),

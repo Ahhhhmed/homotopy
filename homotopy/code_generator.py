@@ -24,7 +24,7 @@ class CodeGenerator(SnippetVisitor):
         :param composite_snippet: Composite snippet
         :return: Text of left side replaced with right side
         """
-        left_side = self.expand_variable_operators(self.snippet_provider[self.visit(composite_snippet.left)])
+        left_side = self.visit(composite_snippet.left)
         operation_text = composite_snippet.operation * 3
 
         if operation_text in left_side:
