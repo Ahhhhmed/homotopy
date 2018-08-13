@@ -59,8 +59,8 @@ class TestHomotopy(TestCase):
     @patch('homotopy.preprocessor.Preprocessor.put_cursor_marker')
     @patch('homotopy.parser.Parser.__init__')
     @patch('homotopy.parser.Parser.parse')
-    @patch('homotopy.compiler.Compiler.__init__')
-    @patch('homotopy.compiler.Compiler.compile')
+    @patch('homotopy.code_generator.CodeGenerator.__init__')
+    @patch('homotopy.code_generator.CodeGenerator.generate_code')
     @patch('homotopy.snippet_provider.SnippetProvider')
     @patch('homotopy.util.IndentManager')
     def test_compile(

@@ -2,20 +2,20 @@ from unittest import TestCase
 from unittest.mock import patch, call
 
 import homotopy.syntax_tree as st
-from homotopy.compiler import Compiler, ContextManager
+from homotopy.code_generator import CodeGenerator, ContextManager
 from homotopy.snippet_provider import SnippetProvider
 from homotopy.util import IndentManager
 
 
-class TestCompiler(TestCase):
+class TestCodeGenerator(TestCase):
     def setUp(self):
-        self.compiler_instance = Compiler(SnippetProvider("", []), IndentManager())
+        self.code_generator_instance = CodeGenerator(SnippetProvider("", []), IndentManager())
 
     @patch('homotopy.util.IndentManager.indent_new_lines')
     @patch('homotopy.snippet_provider.SnippetProvider.__getitem__')
     def test_compile(self, mock_provider, mock_indent_new_lines):
         with self.assertRaises(NotImplementedError):
-            self.compiler_instance.compile(st.Snippet())
+            self.code_generator_instance.generate_code(st.Snippet())
 
         data = {
             "for": "for ### in !!!:\n\tpass",
@@ -34,7 +34,7 @@ class TestCompiler(TestCase):
         mock_indent_new_lines.side_effect = lambda x, _: x
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.CompositeSnippet(st.SimpleSnippet('for'), '#', st.SimpleSnippet('i')),
                 '!',
                 st.SimpleSnippet('data')
@@ -43,7 +43,7 @@ class TestCompiler(TestCase):
         )
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.SimpleSnippet('multiple'),
                 '$',
                 st.SimpleSnippet('asd')
@@ -52,7 +52,7 @@ class TestCompiler(TestCase):
         )
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.SimpleSnippet('regextest'),
                 '#',
                 st.SimpleSnippet('asd')
@@ -61,7 +61,7 @@ class TestCompiler(TestCase):
         )
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.SimpleSnippet('multiple'),
                 '#',
                 st.SimpleSnippet('asd')
@@ -69,9 +69,9 @@ class TestCompiler(TestCase):
             'goo asd'
         )
 
-        with patch('homotopy.compiler.ContextManager.add_variable') as mock_add_variable:
+        with patch('homotopy.code_generator.ContextManager.add_variable') as mock_add_variable:
             self.assertEqual(
-                self.compiler_instance.compile(st.CompositeSnippet(
+                self.code_generator_instance.generate_code(st.CompositeSnippet(
                     st.CompositeSnippet(st.SimpleSnippet('for'), '#', st.SimpleSnippet('i')),
                     '%',
                     st.SimpleSnippet('data')
@@ -84,9 +84,9 @@ class TestCompiler(TestCase):
                 call('%%%', 'data')
             ])
 
-        with patch('homotopy.compiler.ContextManager.add_variable') as mock_add_variable:
+        with patch('homotopy.code_generator.ContextManager.add_variable') as mock_add_variable:
             self.assertEqual(
-                self.compiler_instance.compile(st.CompositeSnippet(
+                self.code_generator_instance.generate_code(st.CompositeSnippet(
                     st.CompositeSnippet(
                         st.SimpleSnippet('doo'),
                         '$',
@@ -113,7 +113,7 @@ class TestCompiler(TestCase):
             ])
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.CompositeSnippet(st.SimpleSnippet('def'), '!', st.SimpleSnippet('foo')),
                 '#',
                 st.SimpleSnippet('a')
@@ -122,7 +122,7 @@ class TestCompiler(TestCase):
         )
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.CompositeSnippet(
                     st.CompositeSnippet(st.SimpleSnippet('def'), '!', st.SimpleSnippet('foo')),
                     '#',
@@ -134,7 +134,7 @@ class TestCompiler(TestCase):
         )
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.CompositeSnippet(
                     st.SimpleSnippet('outer'),
                     '#',
@@ -146,7 +146,7 @@ class TestCompiler(TestCase):
         )
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.SimpleSnippet("goo"),
                 '#',
                 st.SimpleSnippet('goo'))),
@@ -154,7 +154,7 @@ class TestCompiler(TestCase):
         )
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.CompositeSnippet(
                     st.SimpleSnippet('outer'),
                     '#',
@@ -173,7 +173,7 @@ class TestCompiler(TestCase):
     @patch('homotopy.snippet_provider.SnippetProvider.__getitem__')
     def test_indentation(self, mock_provider, mock_indent_new_lines):
         with self.assertRaises(NotImplementedError):
-            self.compiler_instance.compile(st.Snippet())
+            self.code_generator_instance.generate_code(st.Snippet())
 
         data = {
             "for": "for item in collection:\n\t  \t {{helper}}",
@@ -187,7 +187,7 @@ class TestCompiler(TestCase):
         mock_indent_new_lines.side_effect = lambda x, _: x
 
         self.assertEqual(
-            self.compiler_instance.compile(st.CompositeSnippet(
+            self.code_generator_instance.generate_code(st.CompositeSnippet(
                 st.SimpleSnippet('for'),
                 '>',
                 st.SimpleSnippet('pass')

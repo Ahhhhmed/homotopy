@@ -1,6 +1,6 @@
 import os
 
-from homotopy import preprocessor, parser, compiler, snippet_provider, util
+from homotopy import preprocessor, parser, code_generator, snippet_provider, util
 
 
 class Homotopy:
@@ -85,7 +85,7 @@ class Homotopy:
         snippet_text = indent_manager_instance.take_base_indent(snippet_text)
 
         preprocessor_instance = preprocessor.Preprocessor(snippet_provider_instance)
-        compiler_instance = compiler.Compiler(snippet_provider_instance, indent_manager_instance)
+        compiler_instance = code_generator.CodeGenerator(snippet_provider_instance, indent_manager_instance)
         parser_instance = parser.Parser()
 
         preprocessed_text = preprocessor_instance.expand_decorators(snippet_text)
@@ -93,7 +93,7 @@ class Homotopy:
             preprocessed_text = preprocessor_instance.put_cursor_marker(preprocessed_text)
 
         syntax_tree = parser_instance.parse(preprocessed_text)
-        compiled_snippet = compiler_instance.compile(syntax_tree)
+        compiled_snippet = compiler_instance.generate_code(syntax_tree)
 
         result = indent_manager_instance.indent_base(compiled_snippet)
 

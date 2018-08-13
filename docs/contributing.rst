@@ -39,7 +39,7 @@ The code is separated in several components:
 * `Parser`_
 * `Syntax tree`_
 * `Snippet provider`_
-* `Compiler`_
+* `CodeGenerator`_
 * `Application frontend`_
 
 Preprocessor
@@ -261,11 +261,11 @@ Usage
     snippet = "for"
     snippetExpansion = provider[snippet]
 
-Compiler
+CodeGenerator
 ^^^^^^^^
 
-Compiler is responsible for turning a syntax tree into output code. It uses `snippet provider`_ for simple snippets.
-General rules used by compiler will be discussed in this section.
+CodeGenerator is responsible for turning a syntax tree into output code. It uses `snippet provider`_ for simple snippets.
+General rules used by code generator will be discussed in this section.
 
 Simple substitution
 """""""""""""""""""
@@ -339,13 +339,13 @@ from the snippet above the current one.
 Usage
 """""
 
-.. autoclass:: homotopy.compiler.Compiler
-    :members: compile
+.. autoclass:: homotopy.code_generator.CodeGenerator
+    :members: generate_code
     :member-order: bysource
 
 .. code-block:: python
 
-    from homotopy.compiler import Compiler
+    from homotopy.code_generator import CodeGenerator
     from homotopy.parser import Parser
     from homotopy.snippet_provider import SnippetProvider
     from homotopy.util import IndentManager
@@ -353,13 +353,13 @@ Usage
     snippet_provider = SnippetProvider('python', ['folder1', 'folder2'])
     indent_manager = IndentManager(snippet_provider)
 
-    compiler = Compiler(snippet_provider, indent_manager)
+    code_generator = CodeGenerator(snippet_provider, indent_manager)
     parser = Parser()
 
     snippet = "for>code"
     syntax_tree = parser.parse(snippet)
 
-    compiled_snippet = compiler.compile(syntax_tree)
+    compiled_snippet = code_generator.generate_code(syntax_tree)
 
 Application frontend
 ^^^^^^^^^^^^^^^^^^^^
@@ -377,7 +377,7 @@ Example:
     from homotopy import Homotopy
 
     cpp_snippets = Homotopy("c++")
-    print(cpp_snippets.compile('int n=5;&for#int$i%n>printf("hello");'))
+    print(cpp_snippets.generate_code('int n=5;&for#int$i%n>printf("hello");'))
 
 outputs:
 

@@ -5,7 +5,7 @@ from homotopy.parser import Parser
 from homotopy.util import ContextManager
 
 
-class Compiler(SnippetVisitor):
+class CodeGenerator(SnippetVisitor):
     """
     Compiler for snippets. Turns syntax tree into text.
     """
@@ -91,7 +91,7 @@ class Compiler(SnippetVisitor):
             old_inside_parameter = self.inside_parameter
             self.inside_parameter = True
 
-        right = self.compile(right_tree)
+        right = self.generate_code(right_tree)
 
         if operation == Parser.in_operator:
             self.context_manager.remove_scope()
@@ -104,7 +104,7 @@ class Compiler(SnippetVisitor):
 
         return left.replace(operation_text, right)
 
-    def compile(self, snippet):
+    def generate_code(self, snippet):
         """
         Compile a snippet. Visit and then perform a clean.
 
