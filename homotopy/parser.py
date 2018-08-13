@@ -19,6 +19,9 @@ class Parser:
         :param snippet_text: Text to parse
         :return: syntax tree instance corresponding to given text
         """
+        def make_snippet(match_list):
+            return SimpleSnippet("".join(match_list))
+
         stack = []
         current_match = []
         last_operator = Parser.in_operator
@@ -36,11 +39,11 @@ class Parser:
 
             if c in Parser.parameter_chars or c in ["\0", Parser.in_operator, Parser.out_operator, Parser.and_operator]:
                 if last_operator == Parser.in_operator:
-                    stack.append(SimpleSnippet("".join(current_match)))
+                    stack.append(make_snippet(current_match))
                 else:
                     current_snippet = stack.pop()
                     stack.append(
-                        CompositeSnippet(current_snippet, last_operator, SimpleSnippet("".join(current_match))))
+                        CompositeSnippet(current_snippet, last_operator, make_snippet(current_match)))
 
                 last_operator = c
                 current_match.clear()
