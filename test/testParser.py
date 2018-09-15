@@ -1,16 +1,19 @@
 from unittest import TestCase
 
-from homotopy.parser import parser
+from homotopy.parser import Parser
 from homotopy.syntax_tree import SimpleSnippet, CompositeSnippet
 
 
 class TestParser(TestCase):
-    def test_basic(self):
-        self.assertEqual(parser.parse(''), SimpleSnippet(''))
+    def setUp(self):
+        self.parser_instance = Parser()
 
-        self.assertEqual(parser.parse('asd'), SimpleSnippet('asd'))
-        self.assertEqual(parser.parse('asd#'), CompositeSnippet(SimpleSnippet('asd'), '#', SimpleSnippet('')))
-        self.assertEqual(parser.parse('asd!#1'),
+    def test_basic(self):
+        self.assertEqual(self.parser_instance.parse(''), SimpleSnippet(''))
+
+        self.assertEqual(self.parser_instance.parse('asd'), SimpleSnippet('asd'))
+        self.assertEqual(self.parser_instance.parse('asd#'), CompositeSnippet(SimpleSnippet('asd'), '#', SimpleSnippet('')))
+        self.assertEqual(self.parser_instance.parse('asd!#1'),
                          CompositeSnippet(
                              CompositeSnippet(SimpleSnippet('asd'), '!',
                                               SimpleSnippet('')), '#',
@@ -20,7 +23,7 @@ class TestParser(TestCase):
     def test_parameters(self):
         operators = '!@#$%:~^'
         for l in operators:
-            self.assertEqual(parser.parse('first{0}second{0}third'.format(l)),
+            self.assertEqual(self.parser_instance.parse('first{0}second{0}third'.format(l)),
                              CompositeSnippet(
                                  CompositeSnippet(SimpleSnippet('first'), l,
                                                   SimpleSnippet('second')), l,
@@ -28,28 +31,28 @@ class TestParser(TestCase):
                              )
 
     def test_into(self):
-        self.assertEqual(parser.parse('asd>dsa'), CompositeSnippet(SimpleSnippet('asd'), '>', SimpleSnippet('dsa')))
-        self.assertEqual(parser.parse('asd>dsa#2'),
+        self.assertEqual(self.parser_instance.parse('asd>dsa'), CompositeSnippet(SimpleSnippet('asd'), '>', SimpleSnippet('dsa')))
+        self.assertEqual(self.parser_instance.parse('asd>dsa#2'),
                          CompositeSnippet(SimpleSnippet('asd'), '>',
                                           CompositeSnippet(SimpleSnippet('dsa'), '#',
                                                            SimpleSnippet('2')))
                          )
 
-        self.assertEqual(parser.parse('for>if&if'),
+        self.assertEqual(self.parser_instance.parse('for>if&if'),
                          CompositeSnippet(
                              CompositeSnippet(SimpleSnippet('for'), '>',
                                               SimpleSnippet('if')), '>',
                              SimpleSnippet('if'))
                          )
 
-        self.assertEqual(parser.parse('for>if>if<if'),
+        self.assertEqual(self.parser_instance.parse('for>if>if<if'),
                          CompositeSnippet(
                              CompositeSnippet(SimpleSnippet('for'), '>',
                                               CompositeSnippet(SimpleSnippet('if'), '>', SimpleSnippet('if'))), '>',
                              SimpleSnippet('if'))
                          )
 
-        self.assertEqual(parser.parse('for>if>if>if<<if'),
+        self.assertEqual(self.parser_instance.parse('for>if>if>if<<if'),
                          CompositeSnippet(
                              CompositeSnippet(SimpleSnippet('for'), '>',
                                               CompositeSnippet(SimpleSnippet('if'), '>',
@@ -59,7 +62,7 @@ class TestParser(TestCase):
                              SimpleSnippet('if'))
                          )
 
-        self.assertEqual(parser.parse('for>if#5>if<if'),
+        self.assertEqual(self.parser_instance.parse('for>if#5>if<if'),
                          CompositeSnippet(
                              CompositeSnippet(SimpleSnippet('for'), '>',
                                               CompositeSnippet(
@@ -68,7 +71,7 @@ class TestParser(TestCase):
                              SimpleSnippet('if'))
                          )
 
-        self.assertEqual(parser.parse('for&for'),
+        self.assertEqual(self.parser_instance.parse('for&for'),
                          CompositeSnippet(
                              CompositeSnippet(
                                  SimpleSnippet('block'),
@@ -78,7 +81,7 @@ class TestParser(TestCase):
                              SimpleSnippet('for')
                          ))
 
-        self.assertEqual(parser.parse('for>if<if'),
+        self.assertEqual(self.parser_instance.parse('for>if<if'),
                          CompositeSnippet(
                              CompositeSnippet(
                                  SimpleSnippet('block'),
@@ -94,10 +97,10 @@ class TestParser(TestCase):
                          ))
 
     def test_escape(self):
-        self.assertEqual(parser.parse(r"i\>4"), SimpleSnippet("i>4"))
-        self.assertEqual(parser.parse("ignore\\"), SimpleSnippet("ignore"))
+        self.assertEqual(self.parser_instance.parse(r"i\>4"), SimpleSnippet("i>4"))
+        self.assertEqual(self.parser_instance.parse("ignore\\"), SimpleSnippet("ignore"))
 
-        self.assertEqual(parser.parse(r"i\\>4"),
+        self.assertEqual(self.parser_instance.parse(r"i\\>4"),
                          CompositeSnippet(
                              SimpleSnippet("i\\"),
                              '>',
@@ -105,7 +108,7 @@ class TestParser(TestCase):
                          )
                          )
 
-        self.assertEqual(parser.parse(r"if$i\>4"),
+        self.assertEqual(self.parser_instance.parse(r"if$i\>4"),
                          CompositeSnippet(
                              SimpleSnippet("if"),
                              '$',

@@ -78,5 +78,3 @@ class Parser:
             next_tree = stack.pop() if stack else SimpleSnippet("block")
             stack.append(CompositeSnippet(next_tree, Parser.in_operator, last_tree))
 
-
-parser = Parser()
