@@ -81,6 +81,12 @@ def a(i):
     def testMain(self):
         self.verifySingleSnippet("[[main]]>pass", """
 if __name__ == "__main__":
-	pass
+\tpass
 \t[{cursor_marker}]
+""")
+
+    def testReturn(self):
+        self.verifySingleSnippet('ret$i', """
+return i
+[{cursor_marker}]
 """)

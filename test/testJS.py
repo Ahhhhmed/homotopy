@@ -177,3 +177,9 @@ var x = 3;
 var x = 3;
 [{cursor_marker}]
 """)
+
+    def testReturn(self):
+        self.verifySingleSnippet('ret$i', """
+return i;
+[{cursor_marker}]
+""")

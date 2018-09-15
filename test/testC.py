@@ -200,3 +200,9 @@ int main(int argc, char* argv[]){
 \t[{cursor_marker}]
 }
 """)
+
+    def testReturn(self):
+        self.verifySingleSnippet('ret$i', """
+return i;
+[{cursor_marker}]
+""")

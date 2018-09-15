@@ -217,4 +217,8 @@ class A {
 }
 """)
 
-
+    def testReturn(self):
+        self.verifySingleSnippet('ret$i', """
+return i;
+[{cursor_marker}]
+""")

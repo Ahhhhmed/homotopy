@@ -2,6 +2,8 @@
   {"name": "forin","language": "Python","snippet": "for $$$ in %%%:\n{{inside_block}}\n"},
   {"name": "for","language": "Python","snippet": "for $$$ in %%%:\n{{inside_block}}\n"},
 
+  {"name": "ret","language": "Python","snippet": "return $$$"},
+
   {"name": "if","language": "Python","snippet": "if $$$:\n{{inside_block}}\n"},
   {"name": "elif","language": "Python","snippet": "elif $$$:\n{{inside_block}}\n"},
   {"name": "else","language": "Python","snippet": "else:\n{{inside_block}}\n"},

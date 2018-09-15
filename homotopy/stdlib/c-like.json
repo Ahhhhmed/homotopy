@@ -3,6 +3,8 @@
   {"name": "forr","language": ["C++", "C", "Java", "JavaScript"],"snippet": "for(### $$$=%%%; $$$>={{for_end}}; $$$--){\n{{inside_block}}\n}"},
   {"name": "for_end","language": ["C++", "C", "Java", "JavaScript"],"snippet": "%%%"},
 
+  {"name": "ret","language": ["C++", "C", "Java", "JavaScript"],"snippet": "return $$$;"},
+
   {"name": "if","language": ["C++", "C", "Java", "JavaScript"],"snippet": "if($$$){\n{{inside_block}}\n}"},
   {"name": "else","language": ["C++", "C", "Java", "JavaScript"],"snippet": "else {\n{{inside_block}}\n}"},
   {"name": "while","language": ["C++", "C", "Java", "JavaScript"],"snippet": "while($$$){\n{{inside_block}}\n}"},
