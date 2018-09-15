@@ -1,4 +1,5 @@
 import re
+import homotopy.parser as parser
 
 
 class Preprocessor:
@@ -35,4 +36,7 @@ class Preprocessor:
         :param snippet_text: Snippet text
         :return: Snippet text with marker at the end
         """
-        return snippet_text + "&" + Preprocessor.cursor_marker
+        return "".join([
+            snippet_text,
+            parser.Parser.and_operator,
+            Preprocessor.cursor_marker])
